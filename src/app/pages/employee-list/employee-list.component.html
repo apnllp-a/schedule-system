@@ -1,0 +1,50 @@
+<app-header-hr></app-header-hr>
+<div class="employee-list-container">
+    <div class="header-bar">
+      <h2>รายชื่อพนักงาน</h2>
+      <div class="actions">
+        <input type="text" placeholder="ค้นหา..." [(ngModel)]="searchText" (input)="filterEmployees()">
+        <select [(ngModel)]="selectedDepartment" (change)="filterEmployees()">
+          <option value="">ทุกแผนก</option>
+          <option *ngFor="let dept of uniqueDepartments()" [value]="dept">{{ dept }}</option>
+        </select>
+        <button (click)="addEmployee()">+ เพิ่มพนักงาน</button>
+        <button (click)="exportToExcel()">📥 Excel</button>
+      </div>
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>รหัสพนักงาน</th> <!-- ✅ เพิ่ม -->
+          <th>ชื่อ</th>
+          <th>แผนก</th>
+          <th>ตำแหน่ง</th>
+          <th>ประเภทจ้าง</th>
+          <th>สถานะ</th>
+          <th>สิทธิ์การใช้งาน</th> <!-- ✅ เพิ่ม -->
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of paginatedEmployees">
+          <td>{{ emp.employeeId }}</td> <!-- ✅ แสดงรหัส -->
+          <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+          <td>{{ emp.department }}</td>
+          <td>{{ emp.position }}</td>
+          <td>{{ emp.employmentType }}</td>
+          <td>{{ emp.workStatus }}</td> <!-- เปลี่ยนจาก emp.status ถ้าชื่อจริงคือ workStatus -->
+          <td>{{ emp.user?.role || '—' }}</td> <!-- ✅ role มาจาก user (ถ้าเชื่อมอยู่) -->
+          <td>
+            <button (click)="editEmployee(emp._id)">แก้ไข</button>
+            <button (click)="deleteEmployee(emp._id)">ลบ</button>
+          </td>
+        </tr>
+      </tbody>
+      
+    </table>
+<app-employee-add 
+  *ngIf="showAddModal"
+  (close)="showAddModal = false"
+  (saved)="showAddModal = false; fetchEmployees()">
+</app-employee-add>

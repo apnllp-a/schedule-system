@@ -1,0 +1,45 @@
+<div class="register-wrapper">
+    <div class="register-card">
+      <h2>สมัครสมาชิก</h2>
+  
+      <form (ngSubmit)="register()">
+        <div class="form-group">
+          <label for="username">ชื่อผู้ใช้</label>
+          <input id="username" [(ngModel)]="user.username" name="username" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="password">รหัสผ่าน</label>
+          <input type="password" id="password" [(ngModel)]="user.password" name="password" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+          <input type="password" id="confirmPassword" [(ngModel)]="user.confirmPassword" name="confirmPassword" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="role">สิทธิ์ผู้ใช้งาน</label>
+          <select id="role" [(ngModel)]="user.role" name="role" required>
+            <option value="" disabled>เลือกสิทธิ์</option>
+            <option value="IT">IT</option>
+            <option value="HR">HR</option>
+            <option value="Head">Head</option>
+            <option value="Board">Board</option>
+          </select>
+        </div>
+  
+        <div class="form-group" *ngIf="user.role !== 'Board'">
+          <label for="department">แผนก</label>
+          <input id="department" [(ngModel)]="user.department" name="department" />
+        </div>
+  
+
+  
+        <div *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</div>
+  
+        <button type="submit">สมัครสมาชิก</button>
+      </form>
+    </div>
+  </div>
+  

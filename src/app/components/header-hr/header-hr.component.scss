@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css');
+@import '../../../assets/scss/mixins';
+@import '../../../assets/scss/variables';
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ffffff;
+  font-family: 'Kanit', sans-serif;
+}
+
+.logo {
+  margin-left: 30px;
+  h1 {
+    font-size: 24px;
+    color: #ffffff;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+li {
+  list-style: none;
+}
+
+i {
+  width: 20px;
+  height: 20px;
+}
+
+.topnav {
+  width: 100%;
+  background-color: #3A31A6;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navbar ul li a {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 6px;
+}
+
+.navbar ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+button {
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.containerdrop {
+  width: 100%;
+  height: 100%;
+
+  ul {
+    display: none;
+    font-family: 'Kanit', sans-serif;
+    margin-right: 15px;
+    padding: 15px 20px;
+    background-color: #3A31A6;
+    border-radius: 10px;
+    border: solid 1px #3A31A6;
+
+    li {
+      margin: 5px 0;
+      padding: 7px 15px;
+
+      &:hover {
+        background-color: rgba(229, 227, 213, 0.22);
+        border-radius: 5px;
+      }
+    }
+  }
+
+  &:hover ul {
+    margin-left: 20px;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.sidenav {
+  width: 100vw;
+  font-family: 'Kanit', sans-serif;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  top: 0;
+  left: 0;
+  background: #F5F5F5;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+
+  a,
+  p {
+    cursor: pointer;
+    text-align: center;
+    color: #000000;
+    padding: 25px;
+    text-decoration: none;
+    display: block;
+
+    &:hover {
+      background-color: #9892d8;
+      color: #ffffff;
+    }
+  }
+}

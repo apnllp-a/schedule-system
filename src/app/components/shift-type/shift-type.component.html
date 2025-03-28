@@ -1,0 +1,35 @@
+<app-header-hr></app-header-hr>
+<div class="employee-list-container">
+    <div class="header-bar">
+      <h2>เลือกเวรการทำงาน</h2>
+      <div class="actions">
+        <input type="text" placeholder="ค้นหา..." [(ngModel)]="searchText" (input)="filterShiftTypes()">
+        <input type="date" [(ngModel)]="startDate" name="startDate" />
+        <input type="date" [(ngModel)]="endDate" name="endDate" />
+        <button >บันทึก</button>
+      </div>
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>ชื่อ</th>
+          <th>นามสกุล</th>
+          <th>แผนก</th>
+          <th>เวร</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of employees">
+          <td>{{ emp.firstName }}</td>
+          <td>{{ emp.lastName }}</td>
+          <td>{{ emp.department }}</td>
+          <td>
+            <select [(ngModel)]="selectedShift[emp._id]">
+              <option *ngFor="let option of shiftOptions" [value]="option">{{ option }}</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

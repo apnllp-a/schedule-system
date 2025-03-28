@@ -1,0 +1,87 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+      <h2>เพิ่มพนักงานใหม่</h2>
+  
+      <form (ngSubmit)="saveEmployee()" #form="ngForm">
+        <div class="form-group">
+            <label>รหัสพนักงาน (จะกำหนดอัตโนมัติ)</label>
+            <input type="text" [value]="'จะสร้างอัตโนมัติ'" disabled />            
+        </div>
+  
+        <div class="form-group">
+          <label>ชื่อ</label>
+          <input type="text" [(ngModel)]="employee.firstName" name="firstName" required />
+        </div>
+  
+        <div class="form-group">
+          <label>นามสกุล</label>
+          <input type="text" [(ngModel)]="employee.lastName" name="lastName" required />
+        </div>
+  
+        <div class="form-group">
+          <label>ตำแหน่ง</label>
+          <input type="text" [(ngModel)]="employee.position" name="position" />
+        </div>
+  
+        <div class="form-group">
+          <label>แผนก</label>
+          <input type="text" [(ngModel)]="employee.department" name="department" />
+        </div>
+  
+        <div class="form-group">
+          <label>อีเมล</label>
+          <input type="email" [(ngModel)]="employee.contactInformation.email" name="email" />
+        </div>
+  
+        <div class="form-group">
+          <label>เบอร์โทรศัพท์</label>
+          <input type="text" [(ngModel)]="employee.contactInformation.phone" name="phone" />
+        </div>
+  
+        <div class="form-group">
+          <label>วันที่เริ่มงาน</label>
+          <input type="date" [(ngModel)]="employee.startDate" name="startDate" />
+        </div>
+  
+        <div class="form-group">
+          <label>HIPID</label>
+          <input type="text" [(ngModel)]="employee.HIPID" name="HIPID" required />
+        </div>
+  
+        <div class="form-group">
+          <label>ประเภทจ้าง</label>
+          <select [(ngModel)]="employee.employmentType" name="employmentType">
+            <option value="full-time">Full-time</option>
+            <option value="part-time">Part-time</option>
+            <option value="trial-work">Trial work</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label>สถานะการทำงาน</label>
+          <input type="text" [(ngModel)]="employee.workStatus" name="workStatus" />
+        </div>
+  
+        <div class="form-group">
+          <label>วันเกิด</label>
+          <input type="date" [(ngModel)]="employee.birthDate" name="birthDate" />
+        </div>
+  
+        <div class="form-group">
+          <label>ที่อยู่</label>
+          <textarea [(ngModel)]="employee.address" name="address"></textarea>
+        </div>
+  
+        <div class="form-group">
+          <label>เงินเดือน</label>
+          <input type="number" [(ngModel)]="employee.salary" name="salary" />
+        </div>
+  
+        <div class="actions">
+          <button type="submit">บันทึก</button>
+          <button type="button" (click)="close.emit()">ยกเลิก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

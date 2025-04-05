@@ -1,0 +1,36 @@
+.leave-quota-container {
+    padding: 30px;
+  
+    .header-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+  
+      select {
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+      }
+  
+      th {
+        background-color: #3A31A6;
+        color: white;
+      }
+  
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+    }
+  }

@@ -18,6 +18,11 @@ import { HeaderHrComponent } from './components/header-hr/header-hr.component';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { EmployeeAddComponent } from './components/employee-add/employee-add.component';
 import { ShiftTypeComponent } from './components/shift-type/shift-type.component';
+import { DepartmentListComponent } from './pages/department-list/department-list.component';
+import { DepartmentAddComponent } from './pages/department-add/department-add.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-list.component';
+import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +35,12 @@ import { ShiftTypeComponent } from './components/shift-type/shift-type.component
     HeaderHrComponent,
     EmployeeListComponent,
     EmployeeAddComponent,
-    ShiftTypeComponent
+    ShiftTypeComponent,
+    DepartmentListComponent,
+    DepartmentAddComponent,
+    LeaveQuotaListComponent,
+    EmployeeLeaveQuotaComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -38,6 +48,7 @@ import { ShiftTypeComponent } from './components/shift-type/shift-type.component
     FormsModule,
     HttpClientModule,
     LoginPageModule,
+    ReactiveFormsModule
 
     
   ],

@@ -1,0 +1,53 @@
+<app-header-hr></app-header-hr>
+<div class="leave-quota-container">
+    <div class="header-bar">
+      <h2>จัดการโควต้าวันลาพนักงาน</h2>
+      <div class="actions">
+        <label>ปี:</label>
+        <select [(ngModel)]="selectedYear">
+          <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
+        </select>
+        <button (click)="openModal()">กำหนดโควต้า</button>
+      </div>
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>เลือก</th>
+          <th>รหัสพนักงาน</th>
+          <th>ชื่อ</th>
+          <th>แผนก</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of employees">
+          <td>
+            <input type="checkbox" [checked]="selectedEmployees.has(emp._id)" (change)="toggleEmployeeSelection(emp._id)" />
+          </td>
+          <td>{{ emp.employeeId }}</td>
+          <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+          <td>{{ emp.department }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- MODAL -->
+    <div class="modal-overlay" *ngIf="showModal">
+      <div class="modal-content">
+        <h3>กำหนดโควต้าวันลา</h3>
+        <form [formGroup]="quotaForm" (ngSubmit)="submitQuota()">
+          <div class="form-group" *ngFor="let type of ['vacation','sick','personal',
+          'ordination','maternity','other']">
+            <label>{{ type | titlecase }}</label>
+            <input type="number" formControlName="{{ type }}" min="0" />
+          </div>
+  
+          <div class="form-actions">
+            <button type="submit" [disabled]="quotaForm.invalid">บันทึก</button>
+            <button type="button" (click)="closeModal()">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

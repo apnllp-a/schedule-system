@@ -9,7 +9,9 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { EmployeeAddComponent } from './components/employee-add/employee-add.component';
 import { ShiftTypeComponent } from './components/shift-type/shift-type.component';
-
+import { DepartmentListComponent } from './pages/department-list/department-list.component';
+import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-list.component';
+import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
@@ -20,7 +22,10 @@ const routes: Routes = [
   { path: 'register', component: RegisterPageComponent },
   { path: 'employee-list', component: EmployeeListComponent },
   { path: 'employee/add', component: EmployeeAddComponent },
-  { path: 'shift-type', component: ShiftTypeComponent }
+  { path: 'shift-type', component: ShiftTypeComponent },
+  { path: 'department-list', component: DepartmentListComponent },
+  { path: 'leave-quota-list', component: LeaveQuotaListComponent },
+  { path: 'employee-leave-quota', component: EmployeeLeaveQuotaComponent}
 ];
 
 @NgModule({

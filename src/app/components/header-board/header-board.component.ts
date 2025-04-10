@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-header-hr',
-  templateUrl: './header-hr.component.html',
-  styleUrls: ['./header-hr.component.scss']
+  selector: 'app-header-board',
+  templateUrl: './header-board.component.html',
+  styleUrl: './header-board.component.scss'
 })
-export class HeaderHrComponent {
+export class HeaderBoardComponent {
   constructor(private router: Router) {}
 
   menuOpen = false;

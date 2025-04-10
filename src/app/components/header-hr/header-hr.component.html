@@ -1,20 +1,24 @@
 <div class="container">
-<div class="topnav">
+  <div class="topnav">
 
     <div class="logo">
       <h2>ฝ่ายบุคคล</h2>
-        <a href="#"><img src="/assets/images/logo-sch-bg.png" alt=""></a>
+      <!-- <a href="#"><img src="/assets/images/logo-sch-bg.png" alt=""></a> -->
     </div>
-  
-    <nav class="navbar">
+
+    <!-- ☰ ปุ่มเมนูสำหรับมือถือ -->
+    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+
+    <nav class="navbar" [class.active]="menuOpen">
       <ul>
         <li><a routerLink="/employee-list">รายชื่อพนักงาน</a></li>
         <li><a routerLink="/shift-type">ประเภทเวร</a></li>
         <li><a routerLink="/schedule">ตารางเวร</a></li>
         <li><a routerLink="/attendance-upload">อัปโหลดเวลาเข้าออก</a></li>
         <li><a routerLink="/leave-request">ขอลางาน</a></li>
-        <li><a (click)="logout()">ออกจากระบบ</a></li>
+        <li style="cursor: pointer;"><a  (click)="logout()">ออกจากระบบ</a></li>
       </ul>
     </nav>
-</div>
+
   </div>
+</div>

@@ -31,7 +31,7 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  background-color: #3A31A6;
+  background-color: #31A69F;
   padding: 20px;
 }
 
@@ -52,18 +52,17 @@ body {
   padding: 0;
 }
 
+ul > li {
+    padding: 10px;
+    cursor: pointer;
+    transition: .25s ease-in-out;
+  }
+
 ul > li:hover {
-  background-color: #2d288e;
   border-radius: 5px;
   padding: 10px;
-  transition: .25s ease-in-out;
+    background-color: #257973;
 }
-
-ul > li {
-  padding: 10px;
-  cursor: pointer;
-}
-
 .navbar ul li a {
   text-decoration: none;
   color: #ffffff;

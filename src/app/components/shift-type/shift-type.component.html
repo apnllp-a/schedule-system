@@ -21,10 +21,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let emp of employees">
-          <td>{{ emp.firstName }}</td>
-          <td>{{ emp.lastName }}</td>
-          <td>{{ emp.department }}</td>
-          <td>
+          <td data-label="ชื่อ">{{ emp.firstName }}</td>
+          <td data-label="นามสกุล">{{ emp.lastName }}</td>
+          <td data-label="แผนก">{{ emp.department }}</td>
+          <td data-label="เวร">
             <select [(ngModel)]="selectedShift[emp._id]">
               <option *ngFor="let option of shiftOptions" [value]="option">{{ option }}</option>
             </select>

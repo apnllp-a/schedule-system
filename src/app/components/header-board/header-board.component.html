@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="topnav">
+  
+      <div class="logo">
+        <h2>ผู้บริหาร</h2>
+        <!-- <a href="#"><img src="/assets/images/logo-sch-bg.png" alt=""></a> -->
+      </div>
+  
+      <!-- ☰ ปุ่มเมนูสำหรับมือถือ -->
+      <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+  
+      <nav class="navbar" [class.active]="menuOpen">
+        <ul>
+          <li><a routerLink="#">เอกสาร</a></li>
+          <li><a routerLink="#">รายชื่อพนักงาน</a></li>
+          <li style="cursor: pointer;"><a (click)="logout()">ออกจากระบบ</a></li>
+        </ul>
+      </nav>
+  
+    </div>
+  </div>
+  
+  

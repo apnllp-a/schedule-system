@@ -28,19 +28,20 @@
       </thead>
       <tbody>
         <tr *ngFor="let emp of paginatedEmployees">
-          <td>{{ emp.employeeId }}</td> <!-- ✅ แสดงรหัส -->
-          <td>{{ emp.firstName }} {{ emp.lastName }}</td>
-          <td>{{ emp.department }}</td>
-          <td>{{ emp.position }}</td>
-          <td>{{ emp.employmentType }}</td>
-          <td>{{ emp.workStatus }}</td> <!-- เปลี่ยนจาก emp.status ถ้าชื่อจริงคือ workStatus -->
-          <td>{{ emp.user?.role || '—' }}</td> <!-- ✅ role มาจาก user (ถ้าเชื่อมอยู่) -->
-          <td>
-            <button (click)="editEmployee(emp._id)">แก้ไข</button>
-            <button (click)="deleteEmployee(emp._id)">ลบ</button>
+          <td data-label="รหัสพนักงาน">{{ emp.employeeId }}</td>
+          <td data-label="ชื่อ">{{ emp.firstName }} {{ emp.lastName }}</td>
+          <td data-label="แผนก">{{ emp.department }}</td>
+          <td data-label="ตำแหน่ง">{{ emp.position }}</td>
+          <td data-label="ประเภทจ้าง">{{ emp.employmentType }}</td>
+          <td data-label="สถานะ">{{ emp.workStatus }}</td>
+          <td data-label="สิทธิ์การใช้งาน">{{ emp.user?.role || '—' }}</td>
+          <td data-label="จัดการ">
+            <button class="btn-edit" (click)="editEmployee(emp._id)">แก้ไข</button>
+            <button class="btn-delete" (click)="deleteEmployee(emp._id)">ลบ</button>
           </td>
         </tr>
       </tbody>
+      
       
     </table>
 <app-employee-add 

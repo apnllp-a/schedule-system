@@ -18,6 +18,11 @@ import { HeaderHrComponent } from './components/header-hr/header-hr.component';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { EmployeeAddComponent } from './components/employee-add/employee-add.component';
 import { ShiftTypeComponent } from './components/shift-type/shift-type.component';
+import { HeaderItComponent } from './components/header-it/header-it.component';
+import { HeaderHeadComponent } from './components/header-head/header-head.component';
+import { HeaderBoardComponent } from './components/header-board/header-board.component';
+import { AccountSettingComponent } from './components/account-setting/account-setting.component';
+import { ListOfEmployeesComponent } from './components/list-of-employees/list-of-employees.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +35,12 @@ import { ShiftTypeComponent } from './components/shift-type/shift-type.component
     HeaderHrComponent,
     EmployeeListComponent,
     EmployeeAddComponent,
-    ShiftTypeComponent
+    ShiftTypeComponent,
+    HeaderItComponent,
+    HeaderHeadComponent,
+    HeaderBoardComponent,
+    AccountSettingComponent,
+    ListOfEmployeesComponent
   ],
   imports: [
     BrowserModule,

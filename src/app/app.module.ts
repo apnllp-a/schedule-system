@@ -29,6 +29,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-list.component';
 import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ListUserComponent } from './components/list-user/list-user.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +54,7 @@ import { FooterComponent } from './components/footer/footer.component';
     LeaveQuotaListComponent,
     EmployeeLeaveQuotaComponent,
     FooterComponent,
+    ListUserComponent,
 
   ],
   imports: [

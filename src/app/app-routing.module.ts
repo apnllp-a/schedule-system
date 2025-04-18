@@ -15,6 +15,8 @@ import { ListOfEmployeesComponent } from './components/list-of-employees/list-of
 import { DepartmentListComponent } from './pages/department-list/department-list.component';
 import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-list.component';
 import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
+import { ListUserComponent } from './components/list-user/list-user.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },

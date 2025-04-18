@@ -1,0 +1,161 @@
+<main class="content">
+    <div class="actions-bar">
+      <button (click)="onAddUser()">เพิ่มผู้ใช้ใหม่</button>
+    </div>
+  
+    <div class="list-user" *ngIf="!loading; else loadingTpl">
+      <h2>ผู้ใช้ในระบบ</h2>
+      <p *ngIf="error" class="error">{{ error }}</p>
+      <table *ngIf="users.length > 0; else noDataTpl">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Employee ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users">
+            <td>{{ u.username }}</td>
+            <td>{{ u.role }}</td>
+            <td>{{ u.department || '-' }}</td>
+            <td>{{ u.status }}</td>
+            <td>
+              <ng-container *ngIf="u.empCode; else linkTpl">{{ u.empCode }}</ng-container>
+              <ng-template #linkTpl>
+                <button (click)="onLinkEmployee(u)">เชื่อมรหัสพนักงาน</button>
+              </ng-template>
+            </td>
+            <td>
+              <button (click)="onEdit(u)">แก้ไข</button>
+              <button (click)="onChangePassword(u)">เปลี่ยนรหัสผ่าน</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <ng-template #loadingTpl>
+      <p>กำลังโหลดข้อมูลผู้ใช้...</p>
+    </ng-template>
+    <ng-template #noDataTpl>
+      <p>ไม่มีผู้ใช้ในระบบ</p>
+    </ng-template>
+  
+    <!-- Popup แก้ไข -->
+    <div class="modal-backdrop" *ngIf="editingUser">
+      <div class="modal">
+        <h3>แก้ไขผู้ใช้: {{ editingUser.username }}</h3>
+        <form>
+          <div class="form-group">
+            <label>Username</label>
+            <input [(ngModel)]="editData.username" name="username" />
+          </div>
+          <div class="form-group">
+            <label>Role</label>
+            <input [(ngModel)]="editData.role" name="role" />
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <input [(ngModel)]="editData.department" name="department" />
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select [(ngModel)]="editData.status" name="status">
+              <option value="pending">pending</option>
+              <option value="active">active</option>
+              <option value="rejected">rejected</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button type="button" (click)="onSave()">บันทึก</button>
+            <button type="button" (click)="onCancel()">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Popup เปลี่ยนรหัสผ่าน -->
+    <div class="modal-backdrop" *ngIf="editingPasswordUser">
+      <div class="modal">
+        <h3>เปลี่ยนรหัสผ่าน: {{ editingPasswordUser.username }}</h3>
+        <form>
+          <div class="form-group">
+            <label>รหัสผ่านใหม่</label>
+            <input type="password" [(ngModel)]="passwordData.password" name="password" />
+          </div>
+          <div class="form-group">
+            <label>ยืนยันรหัสผ่าน</label>
+            <input type="password" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" />
+          </div>
+          <div class="actions">
+            <button type="button" (click)="onSavePassword()">บันทึกรหัสผ่าน</button>
+            <button type="button" (click)="onCancelPassword()">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Popup เพิ่มผู้ใช้ใหม่ -->
+    <div class="modal-backdrop" *ngIf="addingUser">
+      <div class="modal">
+        <h3>เพิ่มผู้ใช้ใหม่</h3>
+        <form>
+          <div class="form-group">
+            <label>ชื่อผู้ใช้</label>
+            <input [(ngModel)]="newUserData.username" name="newUsername" required />
+          </div>
+          <div class="form-group">
+            <label>รหัสผ่าน</label>
+            <input type="password" [(ngModel)]="newUserData.password" name="newPassword" required />
+          </div>
+          <div class="form-group">
+            <label>ยืนยันรหัสผ่าน</label>
+            <input type="password" [(ngModel)]="newUserData.confirmPassword" name="newConfirmPassword" required />
+          </div>
+          <div class="form-group">
+            <label>สิทธิ์ผู้ใช้งาน</label>
+            <select [(ngModel)]="newUserData.role" name="newRole" required>
+              <option value="">-- เลือก Role --</option>
+              <option value="IT">IT</option>
+              <option value="HR">HR</option>
+              <option value="Head">Head</option>
+              <option value="Board">Board</option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="newUserData.role !== 'Board'">
+            <label>แผนก</label>
+            <input [(ngModel)]="newUserData.department" name="newDepartment" />
+          </div>
+          <div *ngIf="registerError" class="error-msg">{{ registerError }}</div>
+          <div class="actions">
+            <button type="button" (click)="onSaveNewUser()">บันทึก</button>
+            <button type="button" (click)="onCancelNewUser()">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Popup เชื่อมรหัสพนักงาน -->
+    <div class="modal-backdrop" *ngIf="linkingUser">
+      <div class="modal">
+        <h3>เชื่อมรหัสพนักงาน: {{ linkingUser.username }}</h3>
+        <form>
+          <div class="form-group">
+            <label>เลือกพนักงาน</label>
+            <select [(ngModel)]="selectedEmployeeId" name="empSelect">
+              <option value="">-- เลือก --</option>
+              <option *ngFor="let e of employees" [value]="e._id">{{ e.employeeId }}</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button type="button" (click)="onSaveLink()">บันทึก</button>
+            <button type="button" (click)="onCancelLink()">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>

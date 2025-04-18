@@ -1,0 +1,38 @@
+<app-header-hr></app-header-hr>
+<div class="leave-quota-container">
+    <div class="header-bar">
+      <h2>ข้อมูลวันลาของพนักงาน</h2>
+      <label>เลือกปี:</label>
+      <select [(ngModel)]="selectedYear" (change)="loadLeaveQuotas()">
+        <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>ชื่อพนักงาน</th>
+          <th>แผนก</th>
+          <th>พักร้อน</th>
+          <th>ป่วย</th>
+          <th>กิจ</th>
+          <th>บวช</th>
+          <th>คลอด/เลี้ยงบุตร</th>
+          <th>อื่นๆ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let quota of leaveQuotas">
+          <td>{{ quota.employee.firstName }} {{ quota.employee.lastName }}</td>
+          <td>{{ quota.employee.department }}</td>
+          <td>{{ quota.quotas.vacation.totalDays }}</td>
+          <td>{{ quota.quotas.sick.totalDays }}</td>
+          <td>{{ quota.quotas.personal.totalDays }}</td>
+          <td>{{ quota.quotas.ordination.totalDays }}</td>
+          <td>{{ quota.quotas.maternity.totalDays }}</td>
+          <td>{{ quota.quotas.other.totalDays }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <--! Footer component can be added here if needed -->

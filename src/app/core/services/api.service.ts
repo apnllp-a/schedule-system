@@ -60,6 +60,40 @@ export class ApiService {
   addEmployee(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/employees`, data);
   }
+  getHeadEmployees() {
+    return this.http.get<any[]>(`${this.baseUrl}/employees/head`);
+  }
+// ดึงรายชื่อแผนกทั้งหมด
+getDepartments(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/departments`);
+}
+
+// ดึงข้อมูลแผนกรายตัว
+getDepartmentById(id: string): Observable<any> {
+  return this.http.get(`${this.baseUrl}/departments/${id}`);
+}
+
+// เพิ่มแผนกใหม่
+addDepartment(dept: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/departments`, dept);
+}
+
+// แก้ไขแผนก
+updateDepartment(id: string, dept: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/departments/${id}`, dept);
+}
+
+// ลบแผนก
+deleteDepartment(id: string): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/departments/${id}`);
+}
+
+createBulkLeaveQuota(payload: any) {
+  return this.http.post(`${this.baseUrl}/leaveQuotas/bulk`, payload);
+}
+getLeaveQuotasByYear(year: number) {
+  return this.http.get(`${this.baseUrl}/leave-quotas?year=${year}`);
+}
   
   logout(): void {
     localStorage.clear();

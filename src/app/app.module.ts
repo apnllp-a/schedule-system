@@ -23,6 +23,11 @@ import { HeaderHeadComponent } from './components/header-head/header-head.compon
 import { HeaderBoardComponent } from './components/header-board/header-board.component';
 import { AccountSettingComponent } from './components/account-setting/account-setting.component';
 import { ListOfEmployeesComponent } from './components/list-of-employees/list-of-employees.component';
+import { DepartmentListComponent } from './pages/department-list/department-list.component';
+import { DepartmentAddComponent } from './pages/department-add/department-add.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-list.component';
+import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +45,12 @@ import { ListOfEmployeesComponent } from './components/list-of-employees/list-of
     HeaderHeadComponent,
     HeaderBoardComponent,
     AccountSettingComponent,
-    ListOfEmployeesComponent
+    ListOfEmployeesComponent,
+    DepartmentListComponent,
+    DepartmentAddComponent,
+    LeaveQuotaListComponent,
+    EmployeeLeaveQuotaComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -48,6 +58,7 @@ import { ListOfEmployeesComponent } from './components/list-of-employees/list-of
     FormsModule,
     HttpClientModule,
     LoginPageModule,
+    ReactiveFormsModule
 
     
   ],

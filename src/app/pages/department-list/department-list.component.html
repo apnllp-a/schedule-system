@@ -1,0 +1,89 @@
+<app-header-hr></app-header-hr>
+<div class="department-list-container">
+    <div class="header-bar">
+      <h2>รายชื่อแผนก</h2>
+      <div class="actions">
+        <button (click)="openAddModal()">+ เพิ่มแผนก</button>
+      </div>
+    </div>
+  
+    <!-- ตารางแสดงแผนก -->
+    <table>
+      <thead>
+        <tr>
+          <th>ชื่อย่อ</th>
+          <th>ชื่อเต็ม</th>
+          <th>หัวหน้าแผนก</th>
+          <th>การจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dept of departments">
+          <td>{{ dept.shortName }}</td>
+          <td>{{ dept.name }}</td>
+          <td>{{ dept.head || '—' }}</td>
+          <td>
+            <button (click)="openEditModal(dept._id)">แก้ไข</button>
+            <button (click)="onDeleteDepartment(dept._id)">ลบ</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- ✅ Modal Popup -->
+    <div class="modal-overlay" *ngIf="showAddModal">
+      <div class="modal-content">
+        <h3>เพิ่มแผนกใหม่</h3>
+        <form (ngSubmit)="onSubmit()" [formGroup]="departmentForm">
+          <div class="form-group">
+            <label>ชื่อย่อแผนก</label>
+            <input formControlName="shortName" placeholder="เช่น HR, IT" />
+          </div>
+  
+          <div class="form-group">
+            <label>ชื่อเต็มแผนก</label>
+            <input formControlName="name" placeholder="ชื่อเต็มแผนก" />
+          </div>
+  
+          <div class="form-group">
+            <label>หัวหน้าแผนก</label>
+            <input formControlName="head" placeholder="เช่น คุณสมชาย หัวหน้า" />
+          </div>
+  
+          <div class="form-actions">
+            <button type="submit" [disabled]="departmentForm.invalid">บันทึก</button>
+            <button type="button" (click)="closeAddModal()">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ✅ Edit Department Modal -->
+<div class="modal-overlay" *ngIf="showEditModal">
+    <div class="modal-content">
+      <h3>แก้ไขข้อมูลแผนก</h3>
+      <form (ngSubmit)="onUpdateDepartment()" [formGroup]="editDepartmentForm">
+        <div class="form-group">
+          <label>ชื่อย่อแผนก</label>
+          <input formControlName="shortName" />
+        </div>
+  
+        <div class="form-group">
+          <label>ชื่อเต็มแผนก</label>
+          <input formControlName="name" />
+        </div>
+  
+        <div class="form-group">
+          <label>หัวหน้าแผนก</label>
+          <input formControlName="head" />
+        </div>
+  
+        <div class="form-actions">
+          <button type="submit" [disabled]="editDepartmentForm.invalid">บันทึก</button>
+          <button type="button" (click)="closeEditModal()">ยกเลิก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+  

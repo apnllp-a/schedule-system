@@ -1,4 +1,4 @@
-<app-header-hr></app-header-hr>
+
 <div class="employee-list-container">
     <div class="header-bar">
       <h2>รายชื่อพนักงาน</h2>
@@ -8,8 +8,8 @@
           <option value="">ทุกแผนก</option>
           <option *ngFor="let dept of uniqueDepartments()" [value]="dept">{{ dept }}</option>
         </select>
-        <button (click)="addEmployee()">+ เพิ่มพนักงาน</button>
-        <button (click)="exportToExcel()">📥 Excel</button>
+        <button class="add-button" (click)="addEmployee()">+ เพิ่มพนักงาน</button>
+        <button class="excel-button" (click)="exportToExcel()">📥 Excel</button>
       </div>
     </div>
   
@@ -36,7 +36,7 @@
           <td data-label="สถานะ">{{ emp.workStatus }}</td>
           <td data-label="สิทธิ์การใช้งาน">{{ emp.user?.role || '—' }}</td>
           <td data-label="จัดการ">
-            <button class="btn-edit" (click)="editEmployee(emp._id)">แก้ไข</button>
+            <button class="btn-edit" (click)="editEmployee(emp._id)">แก้ไข</button> &nbsp;
             <button class="btn-delete" (click)="deleteEmployee(emp._id)">ลบ</button>
           </td>
         </tr>

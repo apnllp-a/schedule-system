@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
+import { SchedulePattern } from '../models/schedule-pattern.model';
+
 export interface ApiUser {
   _id: string;
   username: string;
@@ -17,74 +19,58 @@ export interface ApiUser {
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl      = 'http://localhost:8080';
-  private userUrl      = `${this.baseUrl}/users`;
-  private employeeUrl  = `${this.baseUrl}/employees`;
-  private deptUrl      = `${this.baseUrl}/departments`;
-  private leaveQuotaUrl= `${this.baseUrl}/leaveQuotas`;
+  private baseUrl         = 'http://localhost:8080';
+  private userUrl         = `${this.baseUrl}/users`;
+  private employeeUrl     = `${this.baseUrl}/employees`;
+  private deptUrl         = `${this.baseUrl}/departments`;
+  private leaveQuotaUrl   = `${this.baseUrl}/leaveQuotas`;
+  private schedulePatternUrl = `${this.baseUrl}/schedulePatterns`;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   // ------------------ User APIs ------------------
-  /** ดึงผู้ใช้ทั้งหมด */
   getUsers(): Observable<ApiUser[]> {
     return this.http.get<ApiUser[]>(`${this.userUrl}`);
   }
-
-  /** ดึงผู้ใช้สถานะ active */
   getActiveUsers(): Observable<ApiUser[]> {
     return this.http.get<ApiUser[]>(`${this.userUrl}/active`);
   }
-
-  /** ดึงผู้ใช้สถานะ inactive (rejected) */
   getInactiveUsers(): Observable<ApiUser[]> {
     return this.http.get<ApiUser[]>(`${this.userUrl}/inactive`);
   }
-
-  /** ดึงผู้ใช้ตาม ID */
+  getpendingUsers(): Observable<ApiUser[]> {
+    return this.http.get<ApiUser[]>(`${this.userUrl}/pending`);
+  }
   getUserById(id: string): Observable<ApiUser> {
     return this.http.get<ApiUser>(`${this.userUrl}/${id}`);
   }
-
-  /** ค้นหาผู้ใช้ผ่าน query param username */
   searchUsers(username: string): Observable<ApiUser[]> {
     const params = new HttpParams().set('username', username);
     return this.http.get<ApiUser[]>(`${this.userUrl}/search`, { params });
   }
-
-  /** ลบผู้ใช้ (ID) */
   deleteUser(id: string): Observable<any> {
     return this.http.delete(`${this.userUrl}/${id}`);
   }
-
-  /** อัปเดตข้อมูลผู้ใช้ */
   updateUser(id: string, data: any): Observable<any> {
     return this.http.patch(`${this.userUrl}/update/${id}`, data);
   }
-
-  /** สมัครใหม่ */
   register(user: any): Observable<any> {
     return this.http.post(`${this.userUrl}/register`, user);
   }
-
-  /** เข้าสู่ระบบ */
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.userUrl}/login`, credentials).pipe(
       map((response: any) => {
         if (response.token) {
           const decoded: any = jwtDecode(response.token);
           const status = response.user?.status || 'active';
-
           if (status !== 'active') {
             this.logout();
-            const msg = status === 'inactive'
-              ? 'บัญชีถูกปิดใช้งาน'
-              : 'บัญชียังรอตรวจสอบ';
+            const msg =
+              status === 'inactive' ? 'บัญชีถูกปิดใช้งาน' : 'บัญชียังรอตรวจสอบ';
             alert(msg);
             this.router.navigate(['/']);
             return null;
           }
-
           localStorage.setItem('token', response.token);
           localStorage.setItem('userId', response.user.userId);
           localStorage.setItem('username', response.user.username);
@@ -135,6 +121,23 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/leave-quotas?year=${year}`);
   }
 
+  // ------------------ Schedule Pattern APIs ------------------
+  getSchedulePatterns(): Observable<SchedulePattern[]> {
+    return this.http.get<SchedulePattern[]>(`${this.schedulePatternUrl}`);
+  }
+  getSchedulePattern(identifier: string): Observable<SchedulePattern> {
+    return this.http.get<SchedulePattern>(`${this.schedulePatternUrl}/${identifier}`);
+  }
+  createSchedulePattern(pattern: Partial<SchedulePattern>): Observable<SchedulePattern> {
+    return this.http.post<SchedulePattern>(`${this.schedulePatternUrl}`, pattern);
+  }
+  updateSchedulePattern(id: string, pattern: Partial<SchedulePattern>): Observable<SchedulePattern> {
+    return this.http.put<SchedulePattern>(`${this.schedulePatternUrl}/${id}`, pattern);
+  }
+  deleteSchedulePattern(id: string): Observable<any> {
+    return this.http.delete(`${this.schedulePatternUrl}/${id}`);
+  }
+
   // ------------------ Auth Utilities ------------------
   logout(): void {
     localStorage.clear();
@@ -143,10 +146,22 @@ export class ApiService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
-  getToken(): string | null { return localStorage.getItem('token'); }
-  getRole(): string | null { return localStorage.getItem('role'); }
-  getStatus(): string | null { return localStorage.getItem('status'); }
-  getFullName(): string | null { return localStorage.getItem('fullName'); }
-  getUsername(): string | null { return localStorage.getItem('username'); }
-  getDepartment(): string | null { return localStorage.getItem('department'); }
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+  getStatus(): string | null {
+    return localStorage.getItem('status');
+  }
+  getFullName(): string | null {
+    return localStorage.getItem('fullName');
+  }
+  getUsername(): string | null {
+    return localStorage.getItem('username');
+  }
+  getDepartment(): string | null {
+    return localStorage.getItem('department');
+  }
 }

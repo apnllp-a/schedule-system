@@ -1,0 +1,78 @@
+<!-- schedule-pattern-list.component.html -->
+<div class="pattern-list">
+    <h2>รูปแบบการเข้างาน</h2>
+  
+    <!-- ปุ่มเพิ่ม -->
+    <div class="actions">
+      <button class="btn-add" (click)="openAddModal()">➕ เพิ่มรูปแบบการเข้างาน</button>
+    </div>
+  
+    <!-- Modal Popup -->
+    <div class="modal-backdrop" *ngIf="showAddModal">
+      <div class="modal">
+        <h3>เพิ่มรูปแบบการเข้างาน</h3>
+        <form #addForm="ngForm" (ngSubmit)="submitAdd(addForm)">
+          <div class="form-group">
+            <label>ชื่อรูปแบบ</label>
+            <input name="name" [(ngModel)]="newPattern.name" required />
+          </div>
+          <div class="form-group inline">
+            <label>
+              <input type="checkbox"
+                     name="weekly"
+                     [(ngModel)]="newPattern.weekly"
+                     (change)="onWeeklyToggle()" />
+              Weekly
+            </label>
+          </div>
+  
+          <div *ngIf="newPattern.weekly" class="working-days">
+            <div *ngFor="let wd of newPattern.workingDays; let i = index" class="day-row">
+              <label>{{ wd.day }}</label>
+              <input type="time" [(ngModel)]="wd.startTime" name="start{{i}}" required />
+              <span>–</span>
+              <input type="time" [(ngModel)]="wd.endTime"   name="end{{i}}"   required />
+            </div>
+          </div>
+  
+          <div class="modal-actions">
+            <button type="button" (click)="closeAddModal()">ยกเลิก</button>
+            <button type="submit" [disabled]="addForm.invalid">บันทึก</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- สถานะ Loading / Error -->
+    <div *ngIf="loading" class="status">กำลังโหลด...</div>
+    <div *ngIf="!loading && error" class="status error">{{ error }}</div>
+  
+    <!-- ตาราง -->
+    <table *ngIf="!loading && !error">
+        <thead>
+          <tr>
+            <th>ชื่อรูปแบบ</th>
+            <th *ngFor="let d of days">{{ d }}</th>
+            <th>เข้างานตามสัปดาห์</th>
+            <th>Actions</th>           <!-- ← เพิ่มตรงนี้ -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="patterns.length === 0">
+            <!-- colspan เปลี่ยนเป็น days.length + 3 -->
+            <td [attr.colspan]="days.length + 3" class="no-data">— ไม่มีข้อมูล —</td>
+          </tr>
+          <tr *ngFor="let p of patterns">
+            <td>{{ p.name }}</td>
+            <td *ngFor="let d of days">{{ getTime(p, d) }}</td>
+            <td>{{ p.weekly ? '✔️' : '❌' }}</td>
+            <!-- เพิ่มคอลัมน์ Actions พร้อมปุ่มเรียกเมทอดใน TS -->
+            <td class="actions-cell">
+              <button class="btn-edit" (click)="openEditModal(p)">✏️</button>
+              <button class="btn-delete" (click)="deletePattern(p._id)">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  

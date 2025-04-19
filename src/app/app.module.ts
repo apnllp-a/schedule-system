@@ -30,6 +30,8 @@ import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-li
 import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ListUserComponent } from './components/list-user/list-user.component';
+import { SchedulePatternListComponent } from './components/schedule-pattern-list/schedule-pattern-list.component';
+import { PendingUserComponent } from './components/pending-user/pending-user.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { ListUserComponent } from './components/list-user/list-user.component';
     EmployeeLeaveQuotaComponent,
     FooterComponent,
     ListUserComponent,
+    SchedulePatternListComponent,
+    PendingUserComponent,
 
   ],
   imports: [

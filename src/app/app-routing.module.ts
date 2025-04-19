@@ -16,6 +16,8 @@ import { DepartmentListComponent } from './pages/department-list/department-list
 import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-list.component';
 import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
 import { ListUserComponent } from './components/list-user/list-user.component';
+import { SchedulePatternListComponent } from './components/schedule-pattern-list/schedule-pattern-list.component';
+import { PendingUserComponent } from './components/pending-user/pending-user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,6 +32,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'list-user', pathMatch: 'full' },
       { path: 'account-setting', component: AccountSettingComponent },
       { path: 'list-user', component: ListUserComponent },
+      { path: 'pending-user', component: PendingUserComponent },
 
       // เพิ่ม route ย่อยอื่น ๆ
     ],
@@ -45,6 +48,8 @@ const routes: Routes = [
       { path: 'leave-quota-list', component: LeaveQuotaListComponent },
       { path: 'employee-leave-quota', component: EmployeeLeaveQuotaComponent },
       { path: 'shift-type', component: ShiftTypeComponent },
+      { path: 'schedule-pattern-list', component: SchedulePatternListComponent },
+      
     ],
   },
   {

@@ -4,6 +4,34 @@
   padding: 0;
 }
 
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    flex: 1;
+    padding-right: 80px;
+  }
+
+  .toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    background: none;
+    border: none;
+    color: #31a69f;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+
 
 
 .content {

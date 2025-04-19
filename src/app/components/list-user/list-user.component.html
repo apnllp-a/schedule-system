@@ -1,49 +1,47 @@
-<main class="content">
-    <div class="actions-bar">
-      <button (click)="onAddUser()">เพิ่มผู้ใช้ใหม่</button>
-    </div>
+<div class="content">
+  <div class="actions-bar">
+    <button class="add-user-btn" (click)="onAddUser()">เพิ่มผู้ใช้ใหม่</button>
+  </div>
+
+  <div class="list-user" *ngIf="!loading; else loadingTpl">
+    <h2>ผู้ใช้ในระบบ</h2>
+    <p *ngIf="error" class="error">{{ error }}</p>
+    <table *ngIf="users.length > 0; else noDataTpl">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Department</th>
+          <th>Status</th>
+          <th>Employee ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users">
+          <td data-label="Username">{{ u.username }}</td>
+          <td data-label="Role">{{ u.role }}</td>
+          <td data-label="Department">{{ u.department || '-' }}</td>
+          <td data-label="Status">{{ u.status }}</td>
+          <td data-label="Employee ID">
+            <ng-container *ngIf="u.empCode; else linkTpl">{{ u.empCode }}</ng-container>
+            <ng-template #linkTpl>
+              <button class="link-btn" (click)="onLinkEmployee(u)">เชื่อมรหัสพนักงาน</button>
+            </ng-template>
+          </td>
+          <td data-label="Actions" class="actions">
+            <button class="edit-btn" (click)="onEdit(u)">แก้ไข</button>
+            <button class="delete-btn" (click)="onChangePassword(u)">เปลี่ยนรหัสผ่าน</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #loadingTpl><p>กำลังโหลดข้อมูลผู้ใช้...</p></ng-template>
+  <ng-template #noDataTpl><p>ไม่มีผู้ใช้ในระบบ</p></ng-template>
   
-    <div class="list-user" *ngIf="!loading; else loadingTpl">
-      <h2>ผู้ใช้ในระบบ</h2>
-      <p *ngIf="error" class="error">{{ error }}</p>
-      <table *ngIf="users.length > 0; else noDataTpl">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Department</th>
-            <th>Status</th>
-            <th>Employee ID</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let u of users">
-            <td>{{ u.username }}</td>
-            <td>{{ u.role }}</td>
-            <td>{{ u.department || '-' }}</td>
-            <td>{{ u.status }}</td>
-            <td>
-              <ng-container *ngIf="u.empCode; else linkTpl">{{ u.empCode }}</ng-container>
-              <ng-template #linkTpl>
-                <button (click)="onLinkEmployee(u)">เชื่อมรหัสพนักงาน</button>
-              </ng-template>
-            </td>
-            <td>
-              <button (click)="onEdit(u)">แก้ไข</button>
-              <button (click)="onChangePassword(u)">เปลี่ยนรหัสผ่าน</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <ng-template #loadingTpl>
-      <p>กำลังโหลดข้อมูลผู้ใช้...</p>
-    </ng-template>
-    <ng-template #noDataTpl>
-      <p>ไม่มีผู้ใช้ในระบบ</p>
-    </ng-template>
+ 
   
     <!-- Popup แก้ไข -->
     <div class="modal-backdrop" *ngIf="editingUser">
@@ -71,8 +69,8 @@
             </select>
           </div>
           <div class="actions">
-            <button type="button" (click)="onSave()">บันทึก</button>
-            <button type="button" (click)="onCancel()">ยกเลิก</button>
+            <button class="save-btn" type="button" (click)="onSave()">บันทึก</button>
+            <button class="cancel-btn" type="button" (click)="onCancel()">ยกเลิก</button>
           </div>
         </form>
       </div>
@@ -92,8 +90,8 @@
             <input type="password" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" />
           </div>
           <div class="actions">
-            <button type="button" (click)="onSavePassword()">บันทึกรหัสผ่าน</button>
-            <button type="button" (click)="onCancelPassword()">ยกเลิก</button>
+            <button class="save-btn" type="button" (click)="onSavePassword()">บันทึกรหัสผ่าน</button>
+            <button class="cancel-btn" type="button" (click)="onCancelPassword()">ยกเลิก</button>
           </div>
         </form>
       </div>
@@ -102,7 +100,7 @@
     <!-- Popup เพิ่มผู้ใช้ใหม่ -->
     <div class="modal-backdrop" *ngIf="addingUser">
       <div class="modal">
-        <h3>เพิ่มผู้ใช้ใหม่</h3>
+        <h3 style="text-align: center;">เพิ่มผู้ใช้ใหม่</h3>
         <form>
           <div class="form-group">
             <label>ชื่อผู้ใช้</label>
@@ -132,8 +130,8 @@
           </div>
           <div *ngIf="registerError" class="error-msg">{{ registerError }}</div>
           <div class="actions">
-            <button type="button" (click)="onSaveNewUser()">บันทึก</button>
-            <button type="button" (click)="onCancelNewUser()">ยกเลิก</button>
+            <button class="save-btn" type="button" (click)="onSaveNewUser()">บันทึก</button>
+            <button class="cancel-btn" type="button" (click)="onCancelNewUser()">ยกเลิก</button>
           </div>
         </form>
       </div>
@@ -152,10 +150,10 @@
             </select>
           </div>
           <div class="actions">
-            <button type="button" (click)="onSaveLink()">บันทึก</button>
-            <button type="button" (click)="onCancelLink()">ยกเลิก</button>
+            <button class="save-btn" type="button" (click)="onSaveLink()">บันทึก</button>
+            <button class="cancel-btn" type="button" (click)="onCancelLink()">ยกเลิก</button>
           </div>
         </form>
       </div>
     </div>
-  </main>
+  </div>

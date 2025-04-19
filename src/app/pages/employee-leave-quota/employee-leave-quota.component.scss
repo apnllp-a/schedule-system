@@ -1,5 +1,7 @@
 .leave-quota-container {
     padding: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
   
     .header-bar {
       display: flex;
@@ -34,3 +36,61 @@
       }
     }
   }
+
+  @media (max-width: 768px) {
+    .leave-quota-container {
+      .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+  
+        select {
+          width: 100%;
+        }
+      }
+  
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+        width: 100%;
+      }
+  
+      thead {
+        display: none;
+      }
+  
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+  
+      td {
+        text-align: left;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #eee;
+        min-height: 40px;
+        font-size: 14px;
+      }
+  
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        font-weight: bold;
+        color: #333;
+        white-space: nowrap;
+      }
+    }
+  }
+  
+  

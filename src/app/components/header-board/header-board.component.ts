@@ -7,7 +7,20 @@ import { Router } from '@angular/router';
   styleUrl: './header-board.component.scss'
 })
 export class HeaderBoardComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    localStorage.getItem("username")?.split(" ").forEach((item, index) => {
+      if (index === 0) {
+        this.userName = item;
+        console.log(this.userName);
+      }
+    });
+  }
+
+  userName: string | undefined; // ดึงมาจาก auth หรือ service
+userDropdownOpen = false;
+toggleUserDropdown() {
+  this.userDropdownOpen = !this.userDropdownOpen;
+}
 
   menuOpen = false;
 
@@ -19,4 +32,6 @@ toggleMenu() {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
+
+
 }

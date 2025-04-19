@@ -22,16 +22,15 @@ const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
   { path: 'employee/add', component: EmployeeAddComponent },
-  { path: 'shift-type', component: ShiftTypeComponent },
 
   {
     path: 'main-it',
     component: MainItComponent,
     children: [
-      { path: '', redirectTo: 'list-of-employees', pathMatch: 'full' },
+      { path: '', redirectTo: 'list-user', pathMatch: 'full' },
       { path: 'account-setting', component: AccountSettingComponent },
-      { path: 'list-of-employees', component: ListOfEmployeesComponent },
- 
+      { path: 'list-user', component: ListUserComponent },
+
       // เพิ่ม route ย่อยอื่น ๆ
     ],
   },
@@ -42,6 +41,10 @@ const routes: Routes = [
       { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
       { path: 'account-setting', component: AccountSettingComponent },
       { path: 'employee-list', component: EmployeeListComponent },
+      { path: 'department-list', component: DepartmentListComponent },
+      { path: 'leave-quota-list', component: LeaveQuotaListComponent },
+      { path: 'employee-leave-quota', component: EmployeeLeaveQuotaComponent },
+      { path: 'shift-type', component: ShiftTypeComponent },
     ],
   },
   {
@@ -63,11 +66,6 @@ const routes: Routes = [
     ],
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-
-  
-  { path: 'department-list', component: DepartmentListComponent },
-  { path: 'leave-quota-list', component: LeaveQuotaListComponent },
-  { path: 'employee-leave-quota', component: EmployeeLeaveQuotaComponent}
 ];
 
 @NgModule({

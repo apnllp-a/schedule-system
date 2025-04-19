@@ -1,6 +1,5 @@
 <div class="container">
   <div class="topnav">
-
     <div class="logo">
       <h2>ฝ่ายบุคคล</h2>
       <!-- <a href="#"><img src="/assets/images/logo-sch-bg.png" alt=""></a> -->
@@ -11,20 +10,24 @@
 
     <nav class="navbar" [class.active]="menuOpen">
       <ul>
-        <li><a routerLink="/main-hr/employee-list">รายชื่อพนักงาน</a></li>
-        <li><a routerLink="/shift-type">ประเภทเวร</a></li>
-        <li><a routerLink="/schedule">ตารางเวร</a></li>
-        <li><a routerLink="/attendance-upload">อัปโหลดเวลาเข้าออก</a></li>
-        <li><a routerLink="/leave-request">ขอลางาน</a></li>
-        <li><a routerLink="/leave-quota-list">เพิ่มวันลา</a></li>
-        <li><a routerLink="/employee-leave-quota">จำนวนวันลา</a></li>
-        <li><a routerLink="/department-list">จัดการข้อมูล</a></li>
-        
-        <!-- dropdown -->
-        <li style="cursor: pointer;"><a  (click)="logout()">ออกจากระบบ</a></li>
+        <li><a routerLink="employee-list">รายชื่อพนักงาน</a></li>
+        <li><a routerLink="shift-type">ประเภทเวร</a></li>
+        <li><a routerLink="schedule">ตารางเวร</a></li>
+        <li><a routerLink="attendance-upload">อัปโหลดเวลาเข้าออก</a></li>
+        <li><a routerLink="leave-request">ขอลางาน</a></li>
+        <li><a routerLink="leave-quota-list">เพิ่มวันลา</a></li>
+        <li><a routerLink="employee-leave-quota">จำนวนวันลา</a></li>
+        <li><a routerLink="department-list">จัดการข้อมูล</a></li>
 
+        <!-- Dropdown user -->
+        <li class="user-dropdown" (click)="toggleUserDropdown()">
+          {{ userName }} <i class="fas fa-caret-down"></i>
+          <ul class="dropdown-menu" [class.show]="userDropdownOpen">
+            <li><a routerLink="account-setting">ข้อมูลส่วนตัว</a></li>
+            <li><a (click)="logout()">ออกจากระบบ</a></li>
+          </ul>
+        </li>
       </ul>
     </nav>
-
   </div>
 </div>

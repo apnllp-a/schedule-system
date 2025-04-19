@@ -24,6 +24,48 @@ body {
   }
 }
 
+.user-dropdown {
+  position: relative;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+
+  i {
+    margin-left: 5px;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #31A636;
+    border-radius: 5px;
+    list-style: none;
+    padding: 5px 0;
+    display: none;
+    min-width: 150px;
+    z-index: 1000;
+
+    li {
+      padding: 10px 20px;
+      white-space: nowrap;
+
+      a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      &:hover {
+        background-color: #236d26;
+      }
+    }
+  }
+
+  .dropdown-menu.show {
+    display: block;
+  }
+}
+
 
 
 .topnav {
@@ -89,5 +131,14 @@ ul > li {
     flex-direction: column;
     gap: 10px;
     margin-top: 10px;
+  }
+
+  .user-dropdown {
+    .dropdown-menu {
+      position: relative;
+      top: auto;
+      right: auto;
+      margin-top: 10px;
+    }
   }
 }

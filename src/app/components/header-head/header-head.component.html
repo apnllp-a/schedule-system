@@ -14,7 +14,14 @@
           <li><a routerLink="#">รายชื่อพนักงาน</a></li>
           <li><a routerLink="#">เวรการทำงานของแผนก</a></li>
           <li><a routerLink="#">เอกสาร</a></li>
-          <li style="cursor: pointer;"><a (click)="logout()">ออกจากระบบ</a></li>
+           <!-- Dropdown user -->
+        <li class="user-dropdown" (click)="toggleUserDropdown()">
+          {{ userName }} <i class="fas fa-caret-down"></i>
+          <ul class="dropdown-menu" [class.show]="userDropdownOpen">
+            <li><a routerLink="account-setting">ข้อมูลส่วนตัว</a></li>
+            <li><a (click)="logout()">ออกจากระบบ</a></li>
+          </ul>
+        </li>
         </ul>
       </nav>
   

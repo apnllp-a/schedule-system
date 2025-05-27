@@ -17,6 +17,7 @@ import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-li
 import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
 import { ListUserComponent } from './components/list-user/list-user.component';
 import { EmployeeLeaveListComponent } from './components/employee-leave-list/employee-leave-list.component';
+import { CalendarHrComponent } from './pages/calendar-hr/calendar-hr.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -47,6 +48,7 @@ const routes: Routes = [
       { path: 'employee-leave-quota', component: EmployeeLeaveQuotaComponent },
       { path: 'shift-type', component: ShiftTypeComponent },
       { path: 'employee-leave-list', component: EmployeeLeaveListComponent },
+      { path: 'calendar', component: CalendarHrComponent }
     ],
   },
   {

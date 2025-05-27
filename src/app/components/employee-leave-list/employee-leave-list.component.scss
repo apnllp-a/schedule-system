@@ -25,14 +25,14 @@
   
         button {
           padding: 0.4rem 0.8rem;
-          background-color: #007bff;
+          background-color: #3A31A6;
           color: white;
           border: none;
           border-radius: 4px;
           cursor: pointer;
   
           &:hover {
-            background-color: #0056b3;
+            background-color: #2d288e;
           }
         }
       }
@@ -45,11 +45,12 @@
       th, td {
         padding: 0.5rem;
         text-align: left;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #3A31A6;
       }
   
       th {
-        background-color: #f4f4f4;
+        background-color: #3A31A6;
+        color: #fff;
       }
     }
   
@@ -87,25 +88,166 @@
       }
     }
   
-    @media (max-width: 768px) {
-      .header-controls {
-        flex-direction: column;
-        align-items: flex-start;
+ button.lookMore {
+   background-color: #5fc823;
+   color: #fff;
+   border: none;
+   padding: 4px 8px;
+   border-radius: 4px;
+ }
+  }
+
+
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
   
-        .controls {
-          width: 100%;
-          flex-direction: column;
-          align-items: flex-start;
+    .modal {
+      background: #fff;
+      border-radius: 8px;
+      padding: 24px 32px;
+      width: 400px;
+      max-width: 90vw;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      font-family: 'Sarabun', sans-serif;
+  
+      .modal-title {
+        margin: 0 0 16px;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #333;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+      }
+  
+      .modal-content {
+        margin-bottom: 24px;
+  
+        .modal-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 0;
+          border-bottom: 1px solid #eee;
+          font-size: 1rem;
+          color: #444;
+  
+          .label {
+            font-weight: 600;
+            color: #555;
+          }
         }
       }
   
-      table {
-        font-size: 0.875rem;
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
   
-        th, td {
-          padding: 0.4rem;
+        .btn {
+          padding: 8px 16px;
+          border-radius: 4px;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          border: none;
+          transition: background-color 0.3s ease;
+  
+          &.btn-export {
+            background-color: #007bff;
+            color: white;
+  
+            &:hover {
+              background-color: #0056b3;
+            }
+          }
+  
+          &.btn-close {
+            background-color: #ccc;
+            color: #333;
+  
+            &:hover {
+              background-color: #999;
+              color: white;
+            }
+          }
         }
       }
     }
+
+    @media (max-width: 768px) {
+  .controls{
+    width: 100%;
   }
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+        width: 100%;
+      }
+  
+      thead {
+        display: none;
+      }
+  
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      
+     
+      }
+  
+        td {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px;
+          border: none;
+          
+        }
+        td.numdis{
+          background-color: #3A31A6;
+          color: #fff;
+        }
+    
+        td .label {
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 4px;
+        }
+  
+      .controls {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+  
+      .controls select,
+      .controls button {
+        width: 100%;
+      }
+  
+      .modal {
+        width: 95% !important;
+      }
+    }
+
+
+
+    
   

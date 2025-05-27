@@ -1,54 +1,65 @@
 <!-- leave-requests.component.html -->
 <div class="leave-container">
-    <div class="header-controls">
-      <h2>รายการการขอลางาน</h2>
-      <div class="controls">
-        <label>ประเภทการลา:
-          <select [(ngModel)]="selectedType" (change)="filterRequests()">
-            <option value="">ทั้งหมด</option>
-            <option *ngFor="let type of leaveTypes" [value]="type">{{ type }}</option>
-          </select>
-        </label>
-        <button (click)="exportToPDF()">Export PDF</button>
-      </div>
+  <div class="header-controls">
+    <h2>รายการการขอลางาน</h2>
+    <div class="controls">
+      <label>ประเภทการลา:</label>
+        <select [(ngModel)]="selectedType" (change)="filterRequests()">
+          <option value="">ทั้งหมด</option>
+          <option *ngFor="let type of leaveTypes" [value]="type">{{ type }}</option>
+        </select>
+      
+      <!-- <button (click)="exportToPDF()">Export PDF</button> -->
     </div>
-  
-    <table *ngIf="filteredRequests.length > 0">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>ชื่อพนักงาน</th>
-          <th>ประเภท</th>
-          <th>เริ่ม</th>
-          <th>สิ้นสุด</th>
-          <th>สถานะ</th>
-          <th>ดำเนินการ</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let leave of filteredRequests; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ leave.employeeName }}</td>
-          <td>{{ leave.type }}</td>
-          <td>{{ leave.startDate }}</td>
-          <td>{{ leave.endDate }}</td>
-          <td>{{ leave.status }}</td>
-          <td><button (click)="openModal(leave)">ดูรายละเอียด</button></td>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="filteredRequests.length === 0">ไม่มีข้อมูลการลางาน</p>
-  
-    <!-- Modal -->
-    <div class="modal-backdrop" *ngIf="selectedRequest">
-      <div class="modal">
-        <h3>รายละเอียดการลา</h3>
-        <p><strong>ชื่อ:</strong> {{ selectedRequest.employeeName }}</p>
-        <p><strong>ประเภท:</strong> {{ selectedRequest.type }}</p>
-        <p><strong>ช่วงเวลา:</strong> {{ selectedRequest.startDate }} - {{ selectedRequest.endDate }}</p>
-        <p><strong>เหตุผล:</strong> {{ selectedRequest.reason }}</p>
-        <p><strong>สถานะ:</strong> {{ selectedRequest.status }}</p>
-        <button (click)="closeModal()">ปิด</button>
+  </div>
+
+  <table *ngIf="filteredRequests.length > 0">
+    <thead>
+      <tr>
+        <th><span class="label"> #</span></th> 
+        <th><span class="label">ชื่อพนักงาน:</span></th>
+        <th> <span class="label"> ประเภท</span></th>
+        <th> <span class="label"> เริ่ม</span></th>
+        <th> <span class="label"> สิ้นสุด</span></th>
+        <th> <span class="label"> สถานะ</span></th>
+        <th> <span class="label"> ดำเนินการ</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let leave of filteredRequests; let i = index">
+        <td class="numdis" data-label="#"> {{ i + 1 }} </td>
+        <td data-label="ชื่อพนักงาน"> {{ leave.employeeName }} </td>
+        <td data-label="ประเภท"> {{ leave.type }} </td>
+        <td data-label="เริ่ม"> {{ leave.startDate }} </td>
+        <td data-label="สิ้นสุด"> {{ leave.endDate }} </td>
+        <td data-label="สถานะ"> {{ leave.status }} </td>
+        <td data-label="Actions">
+          <button class="lookMore" (click)="openModal(leave)">ดูรายละเอียด</button>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+  <p *ngIf="filteredRequests.length === 0">ไม่มีข้อมูลการลางาน</p>
+
+  <!-- Modal -->
+  <!-- Modal -->
+  <div class="modal-backdrop" *ngIf="selectedRequest">
+    <div class="modal">
+      <h3 class="modal-title">รายละเอียดการลา</h3>
+      <div class="modal-content">
+        <div class="modal-row"><span class="label">ชื่อ:</span> <span>{{ selectedRequest.employeeName }}</span></div>
+        <div class="modal-row"><span class="label">ประเภท:</span> <span>{{ selectedRequest.type }}</span></div>
+        <div class="modal-row"><span class="label">ช่วงเวลา:</span> <span>{{ selectedRequest.startDate }} - {{
+            selectedRequest.endDate }}</span></div>
+        <div class="modal-row"><span class="label">เหตุผล:</span> <span>{{ selectedRequest.reason }}</span></div>
+        <div class="modal-row"><span class="label">สถานะ:</span> <span>{{ selectedRequest.status }}</span></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-export" (click)="exportLeaveFormToPDF()">Export PDF</button>
+        <button class="btn btn-close" (click)="closeModal()">ปิด</button>
       </div>
     </div>
   </div>
+
+</div>

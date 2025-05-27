@@ -1,0 +1,50 @@
+.content {
+    .actions-bar {
+      margin-bottom: 16px;
+      h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th, td {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+  
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+  
+      .approve-btn {
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        &:hover { background-color: #45A049; }
+      }
+  
+      .reject-btn {
+        background-color: #F44336;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        &:hover { background-color: #E53935; }
+      }
+    }
+  
+    .error {
+      color: #F44336;
+      margin-bottom: 12px;
+    }
+  }

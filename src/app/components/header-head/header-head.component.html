@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="topnav">
+  
+      <div class="logo">
+        <h2>หัวหน้างาน</h2>
+        <!-- <a href="#"><img src="/assets/images/logo-sch-bg.png" alt=""></a> -->
+      </div>
+  
+      <!-- ☰ ปุ่มเมนูสำหรับมือถือ -->
+      <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+  
+      <nav class="navbar" [class.active]="menuOpen">
+        <ul>
+          <li><a routerLink="#">รายชื่อพนักงาน</a></li>
+          <li><a routerLink="#">เวรการทำงานของแผนก</a></li>
+          <li><a routerLink="#">เอกสาร</a></li>
+           <!-- Dropdown user -->
+        <li class="user-dropdown" (click)="toggleUserDropdown()">
+          {{ userName }} <i class="fas fa-caret-down"></i>
+          <ul class="dropdown-menu" [class.show]="userDropdownOpen">
+            <li><a routerLink="account-setting">ข้อมูลส่วนตัว</a></li>
+            <li><a (click)="logout()">ออกจากระบบ</a></li>
+          </ul>
+        </li>
+        </ul>
+      </nav>
+  
+    </div>
+  </div>
+  
+  

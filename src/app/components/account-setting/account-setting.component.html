@@ -1,0 +1,36 @@
+<div class="profile-container">
+  <h2>ข้อมูลส่วนตัว</h2>
+
+  <form *ngIf="userData" (ngSubmit)="saveChanges()">
+    <div class="form-group">
+      <label>ชื่อ-นามสกุล</label>
+      <input [readonly]="!isEditing" [(ngModel)]="userData.fullName" name="fullName" />
+    </div>
+
+    <div class="form-group">
+      <label>ชื่อผู้ใช้</label>
+      <input readonly [(ngModel)]="userData.username" name="username" />
+    </div>
+
+    <div class="form-group">
+      <label>ตำแหน่ง</label>
+      <input [readonly]="!isEditing" [(ngModel)]="userData.role" name="role" />
+    </div>
+
+    <div class="form-group">
+      <label>แผนก</label>
+      <input [readonly]="!isEditing" [(ngModel)]="userData.department" name="department" />
+    </div>
+
+    <div class="form-group">
+      <label>ประเภทพนักงาน</label>
+      <input [readonly]="!isEditing" [(ngModel)]="userData.employmentType" name="employmentType" />
+    </div>
+
+    <div class="button-group">
+      <button [ngClass]="buttonClass" type="button" (click)="toggleEdit()" *ngIf="!isEditing">แก้ไข</button>
+      <button [ngClass]="buttonClass" type="submit" *ngIf="isEditing">บันทึก</button>
+      <button [ngClass]="buttonClass" type="button" (click)="toggleEdit()" *ngIf="isEditing">ยกเลิก</button>
+    </div>
+  </form>
+</div>

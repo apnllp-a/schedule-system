@@ -1,50 +1,68 @@
-
 <div class="employee-list-container">
-    <div class="header-bar">
-      <h2>รายชื่อพนักงาน</h2>
-      <div class="actions">
-        <input type="text" placeholder="ค้นหา..." [(ngModel)]="searchText" (input)="filterEmployees()">
-        <select [(ngModel)]="selectedDepartment" (change)="filterEmployees()">
-          <option value="">ทุกแผนก</option>
-          <option *ngFor="let dept of uniqueDepartments()" [value]="dept">{{ dept }}</option>
-        </select>
-        <button (click)="addEmployee()">+ เพิ่มพนักงาน</button>
-        <button (click)="exportToExcel()">📥 Excel</button>
-      </div>
+  <div class="header-bar">
+    <h2>รายชื่อพนักงาน</h2>
+    <div class="actions">
+      <input type="text" placeholder="ค้นหา..." [(ngModel)]="searchText" (ngModelChange)="onSearchChange($event)">
+
+      <select [(ngModel)]="selectedDepartment" (change)="filterEmployees()">
+        <option value="">ทุกแผนก</option>
+        <option *ngFor="let dept of uniqueDepartments()" [value]="dept">{{ dept }}</option>
+      </select>
+
+      <select (change)="changeItemsPerPage($event)">
+        <option [value]="10" [selected]="itemsPerPage === 10">10 รายการ</option>
+        <option [value]="15" [selected]="itemsPerPage === 15">15 รายการ</option>
+        <option [value]="20" [selected]="itemsPerPage === 20">20 รายการ</option>
+      </select>
+
+      <button class="add-button" (click)="addEmployee()">+ เพิ่มพนักงาน</button>
+      <button class="excel-button" (click)="exportToExcel()">📥 Excel</button>
     </div>
-  
-    <table>
-      <thead>
-        <tr>
-          <th>รหัสพนักงาน</th> <!-- ✅ เพิ่ม -->
-          <th>ชื่อ</th>
-          <th>แผนก</th>
-          <th>ตำแหน่ง</th>
-          <th>ประเภทจ้าง</th>
-          <th>สถานะ</th>
-          <th>สิทธิ์การใช้งาน</th> <!-- ✅ เพิ่ม -->
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let emp of paginatedEmployees">
-          <td>{{ emp.employeeId }}</td> <!-- ✅ แสดงรหัส -->
-          <td>{{ emp.firstName }} {{ emp.lastName }}</td>
-          <td>{{ emp.department }}</td>
-          <td>{{ emp.position }}</td>
-          <td>{{ emp.employmentType }}</td>
-          <td>{{ emp.workStatus }}</td> <!-- เปลี่ยนจาก emp.status ถ้าชื่อจริงคือ workStatus -->
-          <td>{{ emp.user?.role || '—' }}</td> <!-- ✅ role มาจาก user (ถ้าเชื่อมอยู่) -->
-          <td>
-            <button (click)="editEmployee(emp._id)">แก้ไข</button>
-            <button (click)="deleteEmployee(emp._id)">ลบ</button>
-          </td>
-        </tr>
-      </tbody>
-      
-    </table>
-<app-employee-add 
-  *ngIf="showAddModal"
-  (close)="showAddModal = false"
-  (saved)="showAddModal = false; fetchEmployees()">
-</app-employee-add>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>รหัสพนักงาน</th>
+        <th>ชื่อ</th>
+        <th>แผนก</th>
+        <th>ตำแหน่ง</th>
+        <th>ประเภทจ้าง</th>
+        <th>สถานะ</th>
+        <th>สิทธิ์การใช้งาน</th>
+        <th>จัดการ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="employees.length === 0">
+        <td colspan="8" style="text-align: center;">ไม่พบข้อมูลในตาราง</td>
+      </tr>
+      <tr *ngIf="employees.length > 0 && filteredEmployees.length === 0">
+        <td colspan="8" style="text-align: center;">ไม่มีข้อมูลที่ตรงกับเงื่อนไข</td>
+      </tr>
+      <tr *ngFor="let emp of paginatedEmployees">
+        <td data-label="รหัสพนักงาน">{{ emp.employeeId }}</td>
+        <td data-label="ชื่อ">{{ emp.firstName }} {{ emp.lastName }}</td>
+        <td data-label="แผนก">{{ emp.department }}</td>
+        <td data-label="ตำแหน่ง">{{ emp.position }}</td>
+        <td data-label="ประเภทจ้าง">{{ emp.employmentType }}</td>
+        <td data-label="สถานะ">{{ emp.workStatus }}</td>
+        <td data-label="สิทธิ์การใช้งาน">{{ emp.user?.role || '—' }}</td>
+        <td data-label="จัดการ">
+          <button class="btn-edit" (click)="editEmployee(emp._id)">แก้ไข</button> &nbsp;
+          <button class="btn-delete" (click)="deleteEmployee(emp._id)">ลบ</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">⬅️ ก่อนหน้า</button>
+    <span>หน้า {{ currentPage }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filteredEmployees.length">ถัดไป ➡️</button>
+  </div>
+
+  <app-employee-add *ngIf="showAddModal" (close)="showAddModal = false"
+    (saved)="showAddModal = false; fetchEmployees()">
+  </app-employee-add>
+</div>

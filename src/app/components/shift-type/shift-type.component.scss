@@ -5,9 +5,10 @@
 
 .employee-list-container {
   font-family: 'Kanit', sans-serif;
-  padding: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 30px;
   margin: 0 auto;
 }
   .header-bar {
@@ -60,7 +61,8 @@
     margin-top: 20px;
 
     thead {
-      background-color: #f0f0f0;
+      background-color: #3A31A6;
+      color: white;
       th {
         padding: 10px;
         text-align: left;
@@ -68,5 +70,110 @@
       }
     }
   }
-    tbody {}
+    tbody {
+      tr{
+        &:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+        td {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+
+          select{
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    
+
+    
+    @media (max-width: 768px) {
+      .employee-list-container .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    
+        .actions {
+          flex-direction: column;
+          align-items: stretch;
+          width: 100%;
+    
+          input[type="text"],
+          input[type="date"],
+          select,
+          button {
+            width: 100%;
+          }
+        }
+      }
+    
+      .employee-list-container table,
+      .employee-list-container thead,
+      .employee-list-container tbody,
+      .employee-list-container th,
+      .employee-list-container td,
+      .employee-list-container tr {
+        display: block;
+        width: 100%;
+      }
+    
+      .employee-list-container thead {
+        display: none;
+      }
+    
+      .employee-list-container tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      }
+    
+      .employee-list-container td {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    
+        padding: 10px 10px 10px 10px;
+        text-align: left;
+        border: none;
+        border-bottom: 1px solid #eee;
+        word-break: break-word;
+      }
+    
+      .employee-list-container td::before {
+        content: attr(data-label);
+        min-width: 120px; // ✅ กำหนดความกว้างคงที่ให้ label
+        font-weight: bold;
+        color: #555;
+        flex-shrink: 0;
+      }
+    
+      .employee-list-container td:last-child {
+        border-bottom: none;
+      }
+    
+      .employee-list-container td select {
+        width: 100%;
+      }
+    }
+    
+        .pagination-controls {
+          margin-top: 1rem;
+          text-align: center;
+    
+          button {
+            margin: 0 0.5rem;
+          }
+        }
     

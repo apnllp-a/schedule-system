@@ -18,11 +18,23 @@ import { HeaderHrComponent } from './components/header-hr/header-hr.component';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { EmployeeAddComponent } from './components/employee-add/employee-add.component';
 import { ShiftTypeComponent } from './components/shift-type/shift-type.component';
+import { HeaderItComponent } from './components/header-it/header-it.component';
+import { HeaderHeadComponent } from './components/header-head/header-head.component';
+import { HeaderBoardComponent } from './components/header-board/header-board.component';
+import { AccountSettingComponent } from './components/account-setting/account-setting.component';
+import { ListOfEmployeesComponent } from './components/list-of-employees/list-of-employees.component';
 import { DepartmentListComponent } from './pages/department-list/department-list.component';
 import { DepartmentAddComponent } from './pages/department-add/department-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LeaveQuotaListComponent } from './pages/leave-quota-list/leave-quota-list.component';
 import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employee-leave-quota.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ListUserComponent } from './components/list-user/list-user.component';
+import { SchedulePatternListComponent } from './components/schedule-pattern-list/schedule-pattern-list.component';
+import { PendingUserComponent } from './components/pending-user/pending-user.component';
+import { EmployeeLeaveListComponent } from './components/employee-leave-list/employee-leave-list.component';
+import { CalendarHrComponent } from './pages/calendar-hr/calendar-hr.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,10 +48,21 @@ import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employ
     EmployeeListComponent,
     EmployeeAddComponent,
     ShiftTypeComponent,
+    HeaderItComponent,
+    HeaderHeadComponent,
+    HeaderBoardComponent,
+    AccountSettingComponent,
+    ListOfEmployeesComponent,
     DepartmentListComponent,
     DepartmentAddComponent,
     LeaveQuotaListComponent,
     EmployeeLeaveQuotaComponent,
+    FooterComponent,
+    ListUserComponent,
+    SchedulePatternListComponent,
+    PendingUserComponent,
+    EmployeeLeaveListComponent,
+    CalendarHrComponent,
 
   ],
   imports: [

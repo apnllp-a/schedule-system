@@ -1,6 +1,8 @@
 .department-list-container {
     padding: 30px;
     font-family: 'Kanit', sans-serif;
+    max-width: 1600px;
+    margin: 0 auto;
   
     .header-bar {
       display: flex;
@@ -31,11 +33,43 @@
       width: 100%;
       margin-top: 20px;
       border-collapse: collapse;
+
+      .btn-g-options{
+        display: flex;
+          justify-content: center;
+          gap: 8px;
+      }
   
       th, td {
         border: 1px solid #ddd;
         padding: 12px;
         text-align: center;
+
+        .btn-edit {
+          background-color: #3a31a6;
+          color: white;
+          border: none;
+          padding: 6px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #2d288e;
+          }
+        }
+
+        .btn-delete {
+          background-color: #e74c3c;
+          color: white;
+          border: none;
+          padding: 6px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #c0392b;
+          }
+        }
       }
   
       th {
@@ -126,4 +160,67 @@
       }
     }
   }
+
+
+  @media (max-width: 768px) {
+    .department-list-container {
+      .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+  
+        .actions {
+          width: 100%;
+  
+          button {
+            width: 100%;
+          }
+        }
+      }
+  
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+        width: 100%;
+      }
+  
+      thead {
+        display: none;
+      }
+  
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+  
+      td {
+        text-align: left;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+        min-height: 40px;
+        font-size: 14px;
+      }
+  
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        font-weight: bold;
+        color: #333;
+        white-space: nowrap;
+      }
+    }
+  }
+  
+  
   

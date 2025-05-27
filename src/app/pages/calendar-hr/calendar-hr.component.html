@@ -1,0 +1,48 @@
+<!-- ส่วน header -->
+<div class="header">
+    <!-- ... -->
+    <div>
+        <button class="today-btn" (click)="goToToday()">วันนี้</button>
+        <div class="date-range">
+            <button (click)="prevWeek()">
+                < </button>
+                    <span>{{ formatDateRange() }}</span>
+                    <button (click)="nextWeek()">></button>
+        </div>
+    </div>
+</div>
+
+<!-- ส่วนหัวตาราง -->
+<table>
+    <thead>
+        <tr>
+            <th><input type="checkbox" /></th>
+            <th>พนักงาน</th>
+            <th *ngFor="let day of weekDates" [ngClass]="{'today': isToday(day.date)}">
+                {{ day.dayName }} <br />{{ day.date | date: 'd MMM' }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let emp of filteredEmployees()">
+            <td><input type="checkbox" /></td>
+            <td class="employee-info">
+                <!-- <img [src]="emp.avatar" class="avatar" /> -->
+                <div>
+                    <div class="name">{{ emp.name }}</div>
+                    <div class="desc">{{ emp.position }}</div>
+                </div>
+            </td>
+            <td *ngFor="let day of weekDates">
+                <span [ngClass]="{
+            'absent': emp.schedule[day.dateStr] === 'ขาดงาน',
+            'holiday': emp.schedule[day.dateStr] === 'วันหยุด',
+            'work-time': !['ขาดงาน', 'วันหยุด'].includes(emp.schedule[day.dateStr])
+          }">
+                    {{ emp.schedule[day.dateStr] || 'วันหยุด' }}
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+  

@@ -1,4 +1,3 @@
-<app-header-hr></app-header-hr>
 <div class="leave-quota-container">
     <div class="header-bar">
       <h2>ข้อมูลวันลาของพนักงาน</h2>
@@ -23,16 +22,16 @@
       </thead>
       <tbody>
         <tr *ngFor="let quota of leaveQuotas">
-          <td>{{ quota.employee.firstName }} {{ quota.employee.lastName }}</td>
-          <td>{{ quota.employee.department }}</td>
-          <td>{{ quota.quotas.vacation.totalDays }}</td>
-          <td>{{ quota.quotas.sick.totalDays }}</td>
-          <td>{{ quota.quotas.personal.totalDays }}</td>
-          <td>{{ quota.quotas.ordination.totalDays }}</td>
-          <td>{{ quota.quotas.maternity.totalDays }}</td>
-          <td>{{ quota.quotas.other.totalDays }}</td>
+          <td data-label="ชื่อพนักงาน">{{ quota.employee.firstName }} {{ quota.employee.lastName }}</td>
+          <td data-label="แผนก">{{ quota.employee.department }}</td>
+          <td data-label="พักร้อน">{{ quota.quotas.vacation.totalDays }}</td>
+          <td data-label="ป่วย">{{ quota.quotas.sick.totalDays }}</td>
+          <td data-label="กิจ">{{ quota.quotas.personal.totalDays }}</td>
+          <td data-label="บวช">{{ quota.quotas.ordination.totalDays }}</td>
+          <td data-label="คลอด/เลี้ยงบุตร">{{ quota.quotas.maternity.totalDays }}</td>
+          <td data-label="อื่นๆ">{{ quota.quotas.other.totalDays }}</td>
         </tr>
+        
       </tbody>
     </table>
   </div>
-  <--! Footer component can be added here if needed -->

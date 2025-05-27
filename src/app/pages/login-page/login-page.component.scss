@@ -10,7 +10,7 @@
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 350px;
+      min-width: 350px;
   
       h2 {
         text-align: center;
@@ -25,12 +25,19 @@
           margin-bottom: 0.25rem;
         }
   
-        input {
-          width: 100%;
-          padding: 0.5rem;
-          border: 1px solid #ccc;
-          border-radius: 6px;
-        }
+                .inputName {
+                  all: unset;
+                  padding: 14px 2px;
+                  width: 100%;
+                  border-radius: 8px;
+                  border: 2px solid transparent;
+                  box-shadow: 0 2px 2px 2px #00000010;
+                  transition: border .3s ease-in-out;
+                }
+        
+                .inputName:focus {
+                  box-shadow: 0 2px 2px 2px rgba(59, 49, 166, 0.377);
+                }
       }
   
       .error-msg {

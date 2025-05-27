@@ -36,7 +36,7 @@ export class LoginPageComponent {
         const roleRoute: any = {
           IT: '/main-it',
           HR: '/main-hr',
-          Head: '/main-head',
+          Head: '/main-head', 
           Board: '/main-board'
         };
 

@@ -32,6 +32,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ListUserComponent } from './components/list-user/list-user.component';
 import { SchedulePatternListComponent } from './components/schedule-pattern-list/schedule-pattern-list.component';
 import { PendingUserComponent } from './components/pending-user/pending-user.component';
+import { EmployeeLeaveListComponent } from './components/employee-leave-list/employee-leave-list.component';
+import { CalendarHrComponent } from './pages/calendar-hr/calendar-hr.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { PendingUserComponent } from './components/pending-user/pending-user.com
     ListUserComponent,
     SchedulePatternListComponent,
     PendingUserComponent,
+    EmployeeLeaveListComponent,
+    CalendarHrComponent,
 
   ],
   imports: [

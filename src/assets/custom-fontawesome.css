@@ -1,0 +1,8 @@
+/* custom-fontawesome.css */
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  src: url("/assets/webfonts/fa-solid-900.woff2") format("woff2"),
+       url("/assets/webfonts/fa-solid-900.ttf") format("truetype");
+}

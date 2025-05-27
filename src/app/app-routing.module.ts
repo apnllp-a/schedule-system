@@ -18,6 +18,8 @@ import { EmployeeLeaveQuotaComponent } from './pages/employee-leave-quota/employ
 import { ListUserComponent } from './components/list-user/list-user.component';
 import { SchedulePatternListComponent } from './components/schedule-pattern-list/schedule-pattern-list.component';
 import { PendingUserComponent } from './components/pending-user/pending-user.component';
+import { EmployeeLeaveListComponent } from './components/employee-leave-list/employee-leave-list.component';
+import { CalendarHrComponent } from './pages/calendar-hr/calendar-hr.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -50,6 +52,8 @@ const routes: Routes = [
       { path: 'shift-type', component: ShiftTypeComponent },
       { path: 'schedule-pattern-list', component: SchedulePatternListComponent },
       
+      { path: 'employee-leave-list', component: EmployeeLeaveListComponent },
+      { path: 'calendar', component: CalendarHrComponent }
     ],
   },
   {

@@ -83,12 +83,25 @@
         <form>
           <div class="form-group">
             <label>รหัสผ่านใหม่</label>
-            <input type="password" [(ngModel)]="passwordData.password" name="password" />
+            <div class="password-wrapper">
+              <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="passwordData.password" name="password" />
+              <button type="button" class="toggle-btn" (click)="showPassword = !showPassword">
+                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
           </div>
+          
           <div class="form-group">
             <label>ยืนยันรหัสผ่าน</label>
-            <input type="password" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" />
+            <div class="password-wrapper">
+              <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" />
+              <button type="button" class="toggle-btn" (click)="showConfirmPassword = !showConfirmPassword">
+                <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
           </div>
+          
+          
           <div class="actions">
             <button class="save-btn" type="button" (click)="onSavePassword()">บันทึกรหัสผ่าน</button>
             <button class="cancel-btn" type="button" (click)="onCancelPassword()">ยกเลิก</button>
@@ -108,12 +121,25 @@
           </div>
           <div class="form-group">
             <label>รหัสผ่าน</label>
-            <input type="password" [(ngModel)]="newUserData.password" name="newPassword" required />
+            <div class="password-wrapper">
+              <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="newUserData.password" name="newPassword" required />
+              <button type="button" class="toggle-btn" (click)="showNewPassword = !showNewPassword">
+                <i [class]="showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
           </div>
+          
           <div class="form-group">
             <label>ยืนยันรหัสผ่าน</label>
-            <input type="password" [(ngModel)]="newUserData.confirmPassword" name="newConfirmPassword" required />
+            <div class="password-wrapper">
+              <input [type]="showNewConfirmPassword ? 'text' : 'password'" [(ngModel)]="newUserData.confirmPassword" name="newConfirmPassword" required />
+              <button type="button" class="toggle-btn" (click)="showNewConfirmPassword = !showNewConfirmPassword">
+                <i [class]="showNewConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
           </div>
+          
+          
           <div class="form-group">
             <label>สิทธิ์ผู้ใช้งาน</label>
             <select [(ngModel)]="newUserData.role" name="newRole" required>

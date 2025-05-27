@@ -1,29 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss']
 })
-export class EmployeeListComponent implements OnInit {
+export class EmployeeListComponent implements OnInit, OnDestroy {
   employees: any[] = [];
   filteredEmployees: any[] = [];
   paginatedEmployees: any[] = [];
+
   currentPage: number = 1;
   itemsPerPage: number = 10;
   searchText: string = '';
   selectedDepartment: string = '';
+
+  searchSubject = new Subject<string>();
+  searchSubscription!: Subscription;
+
   showAddModal = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.fetchEmployees();
+    this.searchSubscription = this.searchSubject
+      .pipe(debounceTime(300))
+      .subscribe(text => {
+        this.searchText = text;
+        this.filterEmployees();
+      });
   }
 
-
+  ngOnDestroy(): void {
+    this.searchSubscription.unsubscribe();
+  }
 
   fetchEmployees() {
     this.apiService.getAllEmployees().subscribe({
@@ -36,12 +50,17 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
+  onSearchChange(term: string) {
+    this.searchSubject.next(term);
+  }
+
   filterEmployees() {
     this.filteredEmployees = this.employees.filter(emp => {
       const matchesText = `${emp.firstName} ${emp.lastName}`.toLowerCase().includes(this.searchText.toLowerCase());
       const matchesDept = this.selectedDepartment ? emp.department === this.selectedDepartment : true;
       return matchesText && matchesDept;
     });
+
     this.currentPage = 1;
     this.paginate();
   }
@@ -51,6 +70,15 @@ export class EmployeeListComponent implements OnInit {
     const end = start + this.itemsPerPage;
     this.paginatedEmployees = this.filteredEmployees.slice(start, end);
   }
+
+  changeItemsPerPage(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const value = target?.value;
+    this.itemsPerPage = parseInt(value, 10);
+    this.currentPage = 1;
+    this.paginate();
+  }
+  
 
   nextPage() {
     if ((this.currentPage * this.itemsPerPage) < this.filteredEmployees.length) {

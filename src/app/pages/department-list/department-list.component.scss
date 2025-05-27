@@ -33,6 +33,12 @@
       width: 100%;
       margin-top: 20px;
       border-collapse: collapse;
+
+      .btn-g-options{
+        display: flex;
+          justify-content: center;
+          gap: 8px;
+      }
   
       th, td {
         border: 1px solid #ddd;

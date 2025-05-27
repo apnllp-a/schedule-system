@@ -7,7 +7,7 @@ export interface ViewUser extends ApiUser {
 @Component({
   selector: 'app-list-user',
   templateUrl: './list-user.component.html',
-  styleUrls: ['./list-user.component.scss']
+  styleUrls: ['./list-user.component.scss'],
 })
 export class ListUserComponent implements OnInit {
   users: ViewUser[] = [];
@@ -18,19 +18,30 @@ export class ListUserComponent implements OnInit {
   // For edit
   editingUser: ViewUser | null = null;
   editData = { username: '', role: '', department: '', status: '' };
-  
+
   // For password change
   editingPasswordUser: ViewUser | null = null;
   passwordData = { password: '', confirmPassword: '' };
 
   // For new user
   addingUser = false;
-  newUserData = { username: '', password: '', confirmPassword: '', role: '', department: '' };
+  newUserData = {
+    username: '',
+    password: '',
+    confirmPassword: '',
+    role: '',
+    department: '',
+  };
   registerError: string | null = null;
 
   // For linking employee
   linkingUser: ViewUser | null = null;
   selectedEmployeeId: string = '';
+
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
+  showNewPassword: boolean = false;
+  showNewConfirmPassword: boolean = false;
 
   constructor(private apiService: ApiService) {}
 
@@ -40,8 +51,11 @@ export class ListUserComponent implements OnInit {
   }
 
   private loadEmployees(): void {
-    this.apiService.getAllEmployees().subscribe(emps => {
-      this.employees = emps.map((e: any) => ({ _id: e._id, employeeId: e.employeeId }));
+    this.apiService.getAllEmployees().subscribe((emps) => {
+      this.employees = emps.map((e: any) => ({
+        _id: e._id,
+        employeeId: e.employeeId,
+      }));
       this.refreshUsers();
     });
   }
@@ -49,24 +63,24 @@ export class ListUserComponent implements OnInit {
   private loadActiveUsers(): void {
     this.loading = true;
     this.apiService.getUsers().subscribe({
-      next: users => {
+      next: (users) => {
         this.users = users
-          .filter(u => u.status === 'active')
-          .map(u => ({ ...u } as ViewUser));
+          .filter((u) => u.status === 'active')
+          .map((u) => ({ ...u } as ViewUser));
         this.loading = false;
         this.refreshUsers();
       },
-      error: err => {
+      error: (err) => {
         this.error = err.message || 'เกิดข้อผิดพลาดในการโหลดข้อมูลผู้ใช้';
         this.loading = false;
-      }
+      },
     });
   }
 
   private refreshUsers(): void {
     // Join empCode
-    this.users.forEach(u => {
-      const emp = this.employees.find(e => e._id === u.employeeId);
+    this.users.forEach((u) => {
+      const emp = this.employees.find((e) => e._id === u.employeeId);
       u.empCode = emp ? emp.employeeId : '';
     });
   }
@@ -74,16 +88,26 @@ export class ListUserComponent implements OnInit {
   // Edit user
   onEdit(u: ViewUser): void {
     this.editingUser = { ...u };
-    this.editData = { username: u.username, role: u.role, department: u.department || '', status: u.status };
+    this.editData = {
+      username: u.username,
+      role: u.role,
+      department: u.department || '',
+      status: u.status,
+    };
   }
   onSave(): void {
     if (!this.editingUser) return;
     this.apiService.updateUser(this.editingUser._id, this.editData).subscribe({
-      next: () => { this.editingUser = null; this.loadActiveUsers(); },
-      error: err => alert(err.message || 'เกิดข้อผิดพลาดในการบันทึก')
+      next: () => {
+        this.editingUser = null;
+        this.loadActiveUsers();
+      },
+      error: (err) => alert(err.message || 'เกิดข้อผิดพลาดในการบันทึก'),
     });
   }
-  onCancel(): void { this.editingUser = null; }
+  onCancel(): void {
+    this.editingUser = null;
+  }
 
   // Change password
   onChangePassword(u: ViewUser): void {
@@ -93,31 +117,57 @@ export class ListUserComponent implements OnInit {
   onSavePassword(): void {
     if (!this.editingPasswordUser) return;
     if (this.passwordData.password !== this.passwordData.confirmPassword) {
-      alert('รหัสผ่านและยืนยันไม่ตรงกัน'); return;
+      alert('รหัสผ่านและยืนยันไม่ตรงกัน');
+      return;
     }
-    this.apiService.updateUser(this.editingPasswordUser._id, { password: this.passwordData.password }).subscribe({
-      next: () => { alert('เปลี่ยนรหัสผ่านสำเร็จ'); this.editingPasswordUser = null; },
-      error: err => alert(err.message || 'เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน')
-    });
+    this.apiService
+      .updateUser(this.editingPasswordUser._id, {
+        password: this.passwordData.password,
+      })
+      .subscribe({
+        next: () => {
+          alert('เปลี่ยนรหัสผ่านสำเร็จ');
+          this.editingPasswordUser = null;
+        },
+        error: (err) =>
+          alert(err.message || 'เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน'),
+      });
   }
-  onCancelPassword(): void { this.editingPasswordUser = null; }
+  onCancelPassword(): void {
+    this.editingPasswordUser = null;
+  }
 
   // Add new user
   onAddUser(): void {
     this.addingUser = true;
-    this.newUserData = { username: '', password: '', confirmPassword: '', role: '', department: '' };
+    this.newUserData = {
+      username: '',
+      password: '',
+      confirmPassword: '',
+      role: '',
+      department: '',
+    };
     this.registerError = null;
   }
   onSaveNewUser(): void {
     if (this.newUserData.password !== this.newUserData.confirmPassword) {
-      this.registerError = 'รหัสผ่านและยืนยันไม่ตรงกัน'; return;
+      this.registerError = 'รหัสผ่านและยืนยันไม่ตรงกัน';
+      return;
     }
     this.apiService.register(this.newUserData).subscribe({
-      next: () => { this.addingUser = false; this.loadActiveUsers(); },
-      error: err => { this.registerError = err.error?.message || 'เกิดข้อผิดพลาดในการเพิ่มผู้ใช้'; }
+      next: () => {
+        this.addingUser = false;
+        this.loadActiveUsers();
+      },
+      error: (err) => {
+        this.registerError =
+          err.error?.message || 'เกิดข้อผิดพลาดในการเพิ่มผู้ใช้';
+      },
     });
   }
-  onCancelNewUser(): void { this.addingUser = false; }
+  onCancelNewUser(): void {
+    this.addingUser = false;
+  }
 
   // Link employee id
   onLinkEmployee(u: ViewUser): void {
@@ -126,10 +176,18 @@ export class ListUserComponent implements OnInit {
   }
   onSaveLink(): void {
     if (!this.linkingUser || !this.selectedEmployeeId) return;
-    this.apiService.updateUser(this.linkingUser._id, { employeeId: this.selectedEmployeeId }).subscribe({
-      next: () => { this.linkingUser = null; this.loadActiveUsers(); },
-      error: err => alert(err.message || 'เกิดข้อผิดพลาดในการเชื่อมพนักงาน')
-    });
+    this.apiService
+      .updateUser(this.linkingUser._id, { employeeId: this.selectedEmployeeId })
+      .subscribe({
+        next: () => {
+          this.linkingUser = null;
+          this.loadActiveUsers();
+        },
+        error: (err) =>
+          alert(err.message || 'เกิดข้อผิดพลาดในการเชื่อมพนักงาน'),
+      });
   }
-  onCancelLink(): void { this.linkingUser = null; }
+  onCancelLink(): void {
+    this.linkingUser = null;
+  }
 }

@@ -2,11 +2,41 @@
     <div class="header-bar">
       <h2>จัดการโควต้าวันลาพนักงาน</h2>
       <div class="actions">
-        <label>ปี:</label>
-        <select [(ngModel)]="selectedYear">
-          <option *ngFor="let year of yearOptions" [value]="year">{{ year }}</option>
-        </select>
+        <div class="sort-actions">
+          <label>Sort by:</label>
+          <select [(ngModel)]="sortKey" (change)="sortEmployees()">
+            <option value="employeeId">รหัสพนักงาน</option>
+            <option value="firstName">ชื่อ</option>
+            <option value="department">แผนก</option>
+          </select>
+        
+          <button type="button" (click)="toggleSelectAll()">
+            {{ isAllSelected() ? 'ยกเลิกเลือกทั้งหมด' : 'เลือกทั้งหมด' }}
+          </button>
+
+          <label>แผนก:</label>
+          <select [(ngModel)]="selectedDepartment" (change)="filterByDepartment()">
+            <option value="">ทั้งหมด</option>
+            <option *ngFor="let dept of departmentOptions" [value]="dept">{{ dept }}</option>
+          </select>
+
+          <label>ค้นหาชื่อ:</label>
+          <input class="inputName" type="text" [(ngModel)]="searchText" (ngModelChange)="onSearchChange($event)"
+            placeholder="ค้นหาชื่อพนักงาน..." />
+
+
+          <label>แสดง:</label>
+          <select [(ngModel)]="itemsPerPage" (change)="updateTotalPages()">
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+          </select>
+
         <button (click)="openModal()">กำหนดโควต้า</button>
+
+
+        </div>
+
       </div>
     </div>
   
@@ -20,7 +50,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let emp of employees">
+    <tr *ngFor="let emp of paginatedEmployees()">
           <td>
             <input type="checkbox" [checked]="selectedEmployees.has(emp._id)" (change)="toggleEmployeeSelection(emp._id)" />
           </td>
@@ -29,7 +59,25 @@
           <td>{{ emp.department }}</td>
         </tr>
       </tbody>
+      <tr *ngIf="filteredEmployees.length === 0">
+        <td colspan="4" style="text-align: center; padding: 16px;">
+          ไม่มีข้อมูลที่ตรงกับเงื่อนไข
+        </td>
+      </tr>
+
     </table>
+
+  <div class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+  
+    <button *ngFor="let page of pagesArray" (click)="goToPage(page)" [class.active]="page === currentPage">
+      {{ page }}
+    </button>
+  
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">»</button>
+  </div>
+
+
   
     <!-- MODAL -->
     <div class="modal-overlay" *ngIf="showModal">

@@ -36,9 +36,17 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/fonts",
+                "output": "assets/fonts"
+              },
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
+              "src/assets/custom-fontawesome.css",
               "src/styles.scss"
             ],
             "scripts": []

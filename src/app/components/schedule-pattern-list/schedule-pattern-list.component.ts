@@ -117,4 +117,21 @@ export class SchedulePatternListComponent implements OnInit {
     const wd = p.workingDays?.find(w => w.day === day);
     return wd ? `${wd.startTime}–${wd.endTime}` : '—';
   }
+
+
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSizeOptions = [5, 10, 15];
+  get totalPages(): number {
+    return Math.ceil(this.patterns.length / this.itemsPerPage);
+  }
+  get paginatedPatterns(): SchedulePattern[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.patterns.slice(start, start + this.itemsPerPage);
+  }
+  onPageChange(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+  }
+
 }

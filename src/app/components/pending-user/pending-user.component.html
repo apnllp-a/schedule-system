@@ -1,40 +1,59 @@
-
-// pending-user.component.html
 <div class="content">
   <div class="actions-bar">
-    <h2>ผู้ใช้รอการอนุมัติ</h2>
+    <h2>รายการผู้ใช้งานที่รออนุมัติ</h2>
+    <div *ngIf="error" class="error">{{ error }}</div>
   </div>
 
-  <div *ngIf="loading; else dataTpl">
-    <p>กำลังโหลดข้อมูล...</p>
+  <div class="filters">
+    <input type="text" placeholder="ค้นหา Username" [(ngModel)]="searchTerm" (input)="onSearchChange()" />
+    <select [(ngModel)]="selectedDepartment" (change)="onDepartmentChange()">
+      <option value="all">ทุกแผนก</option>
+      <option value="it">IT</option>
+      <option value="hr">HR</option>
+      <option value="board">Board</option>
+      <option value="head">Head</option>
+    </select>
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }} รายการ/หน้า</option>
+    </select>
   </div>
 
-  <ng-template #dataTpl>
-    <p *ngIf="error" class="error">{{ error }}</p>
-    <table *ngIf="pendingUsers.length > 0; else noDataTpl">
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Role</th>
-          <th>Department</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let u of pendingUsers">
-          <td>{{ u.username }}</td>
-          <td>{{ u.role }}</td>
-          <td>{{ u.department || '-' }}</td>
-          <td class="actions">
-            <button class="approve-btn" (click)="onApprove(u)">อนุมัติ</button>
-            <button class="reject-btn" (click)="onReject(u)">ยกเลิก</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-template>
+  <table *ngIf="filteredUsers.length > 0; else noDataTpl">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of filteredUsers | paginate: { itemsPerPage: pageSize, currentPage: page }">
+        <td data-label="Username">{{ u.username }}</td>
+        <td data-label="Role">{{ u.role }}</td>
+        <td data-label="Department">{{ u.department || '-' }}</td>
+        <td data-label="Actions">
+          <div class="actions">
+            <!-- ปุ่มอนุมัติ -->
+            <button class="approve-btn" (click)="onApprove(u)">
+              <i class="fas fa-check-circle"></i> อนุมัติ
+            </button>
+            
+            <!-- ปุ่มยกเลิก -->
+            <button class="reject-btn" (click)="onReject(u)">
+              <i class="fas fa-times-circle"></i> ยกเลิก
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination controls -->
+  <pagination-controls class="pagination" (pageChange)="page = $event" previousLabel="ก่อนหน้า"
+    nextLabel="ถัดไป"></pagination-controls>
 
   <ng-template #noDataTpl>
-    <p>ไม่มีผู้ใช้ในสถานะรอการอนุมัติ</p>
+    <p style="text-align: center;">ไม่มีผู้ใช้ที่ตรงกับเงื่อนไข</p>
   </ng-template>
 </div>

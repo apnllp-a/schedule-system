@@ -34,6 +34,8 @@ import { SchedulePatternListComponent } from './components/schedule-pattern-list
 import { PendingUserComponent } from './components/pending-user/pending-user.component';
 import { EmployeeLeaveListComponent } from './components/employee-leave-list/employee-leave-list.component';
 import { CalendarHrComponent } from './pages/calendar-hr/calendar-hr.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { CalendarHrComponent } from './pages/calendar-hr/calendar-hr.component';
     PendingUserComponent,
     EmployeeLeaveListComponent,
     CalendarHrComponent,
+    
 
   ],
   imports: [
@@ -71,7 +74,17 @@ import { CalendarHrComponent } from './pages/calendar-hr/calendar-hr.component';
     FormsModule,
     HttpClientModule,
     LoginPageModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      timeOut: 3000,
+      closeButton: true,
+      easing: 'ease-in-out',
+      easeTime: 400,
+      progressBar: true,
+      progressAnimation: 'increasing'
+    }),
 
     
   ],

@@ -1,12 +1,35 @@
 <div class="content">
+
+  <!-- Action Bar -->
   <div class="actions-bar">
     <button class="add-user-btn" (click)="onAddUser()">เพิ่มผู้ใช้ใหม่</button>
   </div>
 
+
+
+  <!-- Users Table -->
   <div class="list-user" *ngIf="!loading; else loadingTpl">
     <h2>ผู้ใช้ในระบบ</h2>
+
+      <!-- Filters -->
+      <div class="filters mb-4 flex gap-4 flex-wrap">
+        <input type="text" class="form-control" placeholder="ค้นหาโดย Username" [(ngModel)]="searchUsername" />
+      
+        <select class="form-control" [(ngModel)]="filterStatus">
+          <option value="">สถานะทั้งหมด</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      
+        <select class="form-control" [(ngModel)]="itemsPerPage">
+          <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+            แสดง {{ option }} รายการต่อหน้า
+          </option>
+        </select>
+      </div>
     <p *ngIf="error" class="error">{{ error }}</p>
-    <table *ngIf="users.length > 0; else noDataTpl">
+
+    <table *ngIf="filteredUsers.length > 0; else noDataTpl">
       <thead>
         <tr>
           <th>Username</th>
@@ -18,7 +41,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let u of users">
+        <tr *ngFor="let u of filteredUsers | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
           <td data-label="Username">{{ u.username }}</td>
           <td data-label="Role">{{ u.role }}</td>
           <td data-label="Department">{{ u.department || '-' }}</td>
@@ -36,150 +59,148 @@
         </tr>
       </tbody>
     </table>
+
+    <div style="text-align: center; margin-top: 16px;">
+      <pagination-controls (pageChange)="page = $event" [autoHide]="true" previousLabel="ก่อนหน้า" nextLabel="ถัดไป">
+      </pagination-controls>
+    </div>
+    
   </div>
 
-  <ng-template #loadingTpl><p>กำลังโหลดข้อมูลผู้ใช้...</p></ng-template>
-  <ng-template #noDataTpl><p>ไม่มีผู้ใช้ในระบบ</p></ng-template>
-  
- 
-  
-    <!-- Popup แก้ไข -->
-    <div class="modal-backdrop" *ngIf="editingUser">
-      <div class="modal">
-        <h3>แก้ไขผู้ใช้: {{ editingUser.username }}</h3>
-        <form>
-          <div class="form-group">
-            <label>Username</label>
-            <input [(ngModel)]="editData.username" name="username" />
-          </div>
-          <div class="form-group">
-            <label>Role</label>
-            <input [(ngModel)]="editData.role" name="role" />
-          </div>
-          <div class="form-group">
-            <label>Department</label>
-            <input [(ngModel)]="editData.department" name="department" />
-          </div>
-          <div class="form-group">
-            <label>Status</label>
-            <select [(ngModel)]="editData.status" name="status">
-              <option value="pending">pending</option>
-              <option value="active">active</option>
-              <option value="rejected">rejected</option>
-            </select>
-          </div>
-          <div class="actions">
-            <button class="save-btn" type="button" (click)="onSave()">บันทึก</button>
-            <button class="cancel-btn" type="button" (click)="onCancel()">ยกเลิก</button>
-          </div>
-        </form>
+  <!-- Templates -->
+  <ng-template #loadingTpl>
+    <p>กำลังโหลดข้อมูลผู้ใช้...</p>
+  </ng-template>
+
+  <ng-template #noDataTpl>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Department</th>
+          <th>Status</th>
+          <th>Employee ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+    </table>
+    <p style="text-align: center;">ไม่มีผู้ใช้ในระบบ</p>
+  </ng-template>
+
+<!-- Popup แก้ไข -->
+<div class="modal-backdrop" *ngIf="editingUser">
+  <div class="modal">
+    <h3>แก้ไขผู้ใช้: {{ editingUser.username }}</h3>
+    <form>
+      <div class="form-group">
+        <label>Username</label>
+        <input [(ngModel)]="editData.username" name="username" />
       </div>
+      <div class="form-group">
+        <label>Role</label>
+        <input [(ngModel)]="editData.role" name="role" />
+      </div>
+      <div class="form-group">
+        <label>Department</label>
+        <input [(ngModel)]="editData.department" name="department" />
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <input [(ngModel)]="editData.status" name="status" />
+      </div>
+      <div class="actions">
+        <button class="save-btn" type="button" (click)="onSave()">บันทึก</button>
+        <button class="cancel-btn" type="button" (click)="onCancel()">ยกเลิก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Popup เปลี่ยนรหัสผ่าน -->
+<div class="modal-backdrop" *ngIf="editingPasswordUser">
+  <div class="modal">
+    <h3>เปลี่ยนรหัสผ่าน: {{ editingPasswordUser.username }}</h3>
+    <form>
+      <div class="form-group password-wrapper">
+        <label>รหัสผ่านใหม่</label>
+        <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="passwordData.password" name="password" />
+        <button class="toggle-btn" type="button" (click)="showNewPassword = !showNewPassword">
+          {{ showNewPassword ? 'ซ่อน' : 'แสดง' }}
+        </button>
+      </div>
+      <div class="form-group password-wrapper">
+        <label>ยืนยันรหัสผ่าน</label>
+        <input [type]="showNewConfirmPassword ? 'text' : 'password'" [(ngModel)]="passwordData.confirmPassword"
+          name="confirmPassword" />
+        <button class="toggle-btn" type="button" (click)="showNewConfirmPassword = !showNewConfirmPassword">
+          {{ showNewConfirmPassword ? 'ซ่อน' : 'แสดง' }}
+        </button>
+      </div>
+      <div class="actions">
+        <button class="save-btn" type="button" (click)="onSavePassword()">บันทึก</button>
+        <button class="cancel-btn" type="button" (click)="onCancelPassword()">ยกเลิก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Popup เพิ่มผู้ใช้ -->
+<div class="modal-backdrop" *ngIf="addingUser">
+  <div class="modal">
+    <h3>เพิ่มผู้ใช้ใหม่</h3>
+    <form>
+      <div class="form-group">
+        <label>Username</label>
+        <input [(ngModel)]="newUserData.username" name="newUsername" />
+      </div>
+      <div class="form-group password-wrapper">
+        <label>Password</label>
+        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="newUserData.password" name="newPassword" />
+        <button class="toggle-btn" type="button" (click)="showPassword = !showPassword">
+          {{ showPassword ? 'ซ่อน' : 'แสดง' }}
+        </button>
+      </div>
+      <div class="form-group password-wrapper">
+        <label>Confirm Password</label>
+        <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="newUserData.confirmPassword"
+          name="newConfirmPassword" />
+        <button class="toggle-btn" type="button" (click)="showConfirmPassword = !showConfirmPassword">
+          {{ showConfirmPassword ? 'ซ่อน' : 'แสดง' }}
+        </button>
+      </div>
+      <div class="form-group">
+        <label>Role</label>
+        <input [(ngModel)]="newUserData.role" name="newRole" />
+      </div>
+      <div class="form-group">
+        <label>Department</label>
+        <input [(ngModel)]="newUserData.department" name="newDepartment" />
+      </div>
+      <div class="actions">
+        <button class="save-btn" type="button" (click)="onSaveNewUser()">บันทึก</button>
+        <button class="cancel-btn" type="button" (click)="onCancelNewUser()">ยกเลิก</button>
+      </div>
+      <p *ngIf="registerError" class="error">{{ registerError }}</p>
+    </form>
+  </div>
+</div>
+
+<!-- Popup เชื่อมพนักงาน -->
+<div class="modal-backdrop" *ngIf="linkingUser">
+  <div class="modal">
+    <h3>เชื่อมรหัสพนักงาน: {{ linkingUser.username }}</h3>
+    <div class="form-group">
+      <label>เลือก Employee ID</label>
+      <select [(ngModel)]="selectedEmployeeId" name="employeeId">
+        <option *ngFor="let emp of employees" [value]="emp._id">{{ emp.employeeId }}</option>
+      </select>
     </div>
-  
-    <!-- Popup เปลี่ยนรหัสผ่าน -->
-    <div class="modal-backdrop" *ngIf="editingPasswordUser">
-      <div class="modal">
-        <h3>เปลี่ยนรหัสผ่าน: {{ editingPasswordUser.username }}</h3>
-        <form>
-          <div class="form-group">
-            <label>รหัสผ่านใหม่</label>
-            <div class="password-wrapper">
-              <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="passwordData.password" name="password" />
-              <button type="button" class="toggle-btn" (click)="showPassword = !showPassword">
-                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label>ยืนยันรหัสผ่าน</label>
-            <div class="password-wrapper">
-              <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="passwordData.confirmPassword" name="confirmPassword" />
-              <button type="button" class="toggle-btn" (click)="showConfirmPassword = !showConfirmPassword">
-                <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-          </div>
-          
-          
-          <div class="actions">
-            <button class="save-btn" type="button" (click)="onSavePassword()">บันทึกรหัสผ่าน</button>
-            <button class="cancel-btn" type="button" (click)="onCancelPassword()">ยกเลิก</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  
-    <!-- Popup เพิ่มผู้ใช้ใหม่ -->
-    <div class="modal-backdrop" *ngIf="addingUser">
-      <div class="modal">
-        <h3 style="text-align: center;">เพิ่มผู้ใช้ใหม่</h3>
-        <form>
-          <div class="form-group">
-            <label>ชื่อผู้ใช้</label>
-            <input [(ngModel)]="newUserData.username" name="newUsername" required />
-          </div>
-          <div class="form-group">
-            <label>รหัสผ่าน</label>
-            <div class="password-wrapper">
-              <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="newUserData.password" name="newPassword" required />
-              <button type="button" class="toggle-btn" (click)="showNewPassword = !showNewPassword">
-                <i [class]="showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label>ยืนยันรหัสผ่าน</label>
-            <div class="password-wrapper">
-              <input [type]="showNewConfirmPassword ? 'text' : 'password'" [(ngModel)]="newUserData.confirmPassword" name="newConfirmPassword" required />
-              <button type="button" class="toggle-btn" (click)="showNewConfirmPassword = !showNewConfirmPassword">
-                <i [class]="showNewConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-          </div>
-          
-          
-          <div class="form-group">
-            <label>สิทธิ์ผู้ใช้งาน</label>
-            <select [(ngModel)]="newUserData.role" name="newRole" required>
-              <option value="">-- เลือก Role --</option>
-              <option value="IT">IT</option>
-              <option value="HR">HR</option>
-              <option value="Head">Head</option>
-              <option value="Board">Board</option>
-            </select>
-          </div>
-          <div class="form-group" *ngIf="newUserData.role !== 'Board'">
-            <label>แผนก</label>
-            <input [(ngModel)]="newUserData.department" name="newDepartment" />
-          </div>
-          <div *ngIf="registerError" class="error-msg">{{ registerError }}</div>
-          <div class="actions">
-            <button class="save-btn" type="button" (click)="onSaveNewUser()">บันทึก</button>
-            <button class="cancel-btn" type="button" (click)="onCancelNewUser()">ยกเลิก</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  
-    <!-- Popup เชื่อมรหัสพนักงาน -->
-    <div class="modal-backdrop" *ngIf="linkingUser">
-      <div class="modal">
-        <h3>เชื่อมรหัสพนักงาน: {{ linkingUser.username }}</h3>
-        <form>
-          <div class="form-group">
-            <label>เลือกพนักงาน</label>
-            <select [(ngModel)]="selectedEmployeeId" name="empSelect">
-              <option value="">-- เลือก --</option>
-              <option *ngFor="let e of employees" [value]="e._id">{{ e.employeeId }}</option>
-            </select>
-          </div>
-          <div class="actions">
-            <button class="save-btn" type="button" (click)="onSaveLink()">บันทึก</button>
-            <button class="cancel-btn" type="button" (click)="onCancelLink()">ยกเลิก</button>
-          </div>
-        </form>
-      </div>
+    <div class="actions">
+      <button class="save-btn" (click)="onSaveLink()">บันทึก</button>
+      <button class="cancel-btn" (click)="onCancelLink()">ยกเลิก</button>
     </div>
   </div>
+</div>
+
+</div>

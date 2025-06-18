@@ -1,4 +1,7 @@
 .content {
+  padding: 1rem;
+    max-width: 1600px;
+    margin: 0 auto;
     .actions-bar {
       margin-bottom: 16px;
       h2 {
@@ -10,8 +13,16 @@
     table {
       width: 100%;
       border-collapse: collapse;
+
+      th{
+        background-color: #31A69F;
+        color: #fff;
+        border: none;
+        text-align: left;
+        padding: 8px 12px;
+      }
   
-      th, td {
+       td {
         padding: 8px 12px;
         border: 1px solid #ddd;
         text-align: left;
@@ -48,3 +59,113 @@
       margin-bottom: 12px;
     }
   }
+
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+  
+      input,
+      select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    }
+  
+    .pagination {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 16px;
+  
+      button {
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background-color: #f4f4f4;
+        cursor: pointer;
+  
+        &:disabled {
+          background-color: #e0e0e0;
+          cursor: not-allowed;
+        }
+      } }
+
+            .approve-btn,
+            .reject-btn {
+              transition: transform 0.2s ease, box-shadow 0.2s ease;
+      
+              i {
+                margin-right: 6px;
+              }
+      
+              &:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+              }
+      
+              &:active {
+                transform: scale(0.97);
+              }
+            }
+
+
+    /* Responsive Table */
+    @media (max-width: 768px) {
+  
+      .content table,
+      .content thead,
+      .content tbody,
+      .content th,
+      .content td,
+      .content tr {
+        display: block;
+        width: 100%;
+      }
+  
+      .content thead {
+        display: none;
+      }
+  
+      .content tr {
+        margin-bottom: 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+  
+      .content td {
+        text-align: left;
+        padding-left: 50% !important;
+        position: relative;
+        border: none !important;
+        min-height: 40px;
+  
+        &::before {
+          content: attr(data-label);
+          position: absolute;
+          left: 12px;
+          top: 12px;
+          font-weight: bold;
+          color: #333;
+          white-space: nowrap;
+        }
+  
+        // ซ่อน label "Actions" เฉพาะใน td ที่ใช้ปุ่ม
+        &[data-label="Actions"]::before {
+          content: "";
+        }
+      }
+  
+      .content .actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-top: 8px;
+      }
+    }

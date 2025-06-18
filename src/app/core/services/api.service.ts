@@ -19,7 +19,7 @@ export interface ApiUser {
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl         = 'http://localhost:8080';
+  private baseUrl = 'http://54.179.5.54:8080';
   private userUrl         = `${this.baseUrl}/users`;
   private employeeUrl     = `${this.baseUrl}/employees`;
   private deptUrl         = `${this.baseUrl}/departments`;

@@ -41,3 +41,47 @@ $minimore-angular-theme: mat.define-light-theme((
 @import '_variables.scss';
 @import '_utilities.scss';
 @import '_main.scss';
+
+
+// Custom Toastr Theme
+.toast-success {
+  background-color: #4CAF50 !important;
+  color: #fff !important;
+  border-left: 5px solid #388E3C;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toast-error {
+  background-color: #F44336 !important;
+  color: #fff !important;
+  border-left: 5px solid #D32F2F;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toast-info {
+  background-color: #31A69F !important;
+  color: #fff !important;
+  border-left: 5px solid #268C88;
+}
+
+.toast-warning {
+  background-color: #FFA000 !important;
+  color: #fff !important;
+  border-left: 5px solid #F57C00;
+}
+
+// ปรับตัวอักษร และปุ่ม close
+.toast-message {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toast-close-button {
+  color: #fff !important;
+  opacity: 0.9;
+  font-weight: bold;
+
+  &:hover {
+    opacity: 1;
+  }
+}

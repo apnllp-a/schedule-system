@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, ApiUser } from '../../core/services/api.service';
+import { ToastrService } from 'ngx-toastr';
+
 export interface ViewUser extends ApiUser {
   empCode?: string;
 }
@@ -15,15 +17,12 @@ export class ListUserComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  // For edit
   editingUser: ViewUser | null = null;
   editData = { username: '', role: '', department: '', status: '' };
 
-  // For password change
   editingPasswordUser: ViewUser | null = null;
   passwordData = { password: '', confirmPassword: '' };
 
-  // For new user
   addingUser = false;
   newUserData = {
     username: '',
@@ -34,16 +33,19 @@ export class ListUserComponent implements OnInit {
   };
   registerError: string | null = null;
 
-  // For linking employee
   linkingUser: ViewUser | null = null;
   selectedEmployeeId: string = '';
 
-  showPassword: boolean = false;
-  showConfirmPassword: boolean = false;
-  showNewPassword: boolean = false;
-  showNewConfirmPassword: boolean = false;
+  showPassword = false;
+  showConfirmPassword = false;
+  showNewPassword = false;
+  showNewConfirmPassword = false;
+  
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -72,13 +74,13 @@ export class ListUserComponent implements OnInit {
       },
       error: (err) => {
         this.error = err.message || 'เกิดข้อผิดพลาดในการโหลดข้อมูลผู้ใช้';
+        this.toastr.error(this.error || 'เกิดข้อผิดพลาด');
         this.loading = false;
       },
     });
   }
 
   private refreshUsers(): void {
-    // Join empCode
     this.users.forEach((u) => {
       const emp = this.employees.find((e) => e._id === u.employeeId);
       u.empCode = emp ? emp.employeeId : '';
@@ -95,16 +97,22 @@ export class ListUserComponent implements OnInit {
       status: u.status,
     };
   }
+
   onSave(): void {
     if (!this.editingUser) return;
     this.apiService.updateUser(this.editingUser._id, this.editData).subscribe({
       next: () => {
+        this.toastr.success(`บันทึกข้อมูล ${this.editingUser?.username} สำเร็จ`);
         this.editingUser = null;
         this.loadActiveUsers();
       },
-      error: (err) => alert(err.message || 'เกิดข้อผิดพลาดในการบันทึก'),
+      error: (err) => {
+        const msg = err.message || 'เกิดข้อผิดพลาดในการบันทึก';
+        this.toastr.error(msg);
+      },
     });
   }
+
   onCancel(): void {
     this.editingUser = null;
   }
@@ -114,10 +122,11 @@ export class ListUserComponent implements OnInit {
     this.editingPasswordUser = { ...u };
     this.passwordData = { password: '', confirmPassword: '' };
   }
+
   onSavePassword(): void {
     if (!this.editingPasswordUser) return;
     if (this.passwordData.password !== this.passwordData.confirmPassword) {
-      alert('รหัสผ่านและยืนยันไม่ตรงกัน');
+      this.toastr.error('รหัสผ่านและยืนยันไม่ตรงกัน');
       return;
     }
     this.apiService
@@ -126,13 +135,17 @@ export class ListUserComponent implements OnInit {
       })
       .subscribe({
         next: () => {
-          alert('เปลี่ยนรหัสผ่านสำเร็จ');
+          this.toastr.success(`เปลี่ยนรหัสผ่าน ${this.editingPasswordUser?.username} สำเร็จ`);
           this.editingPasswordUser = null;
+          this.loadActiveUsers();
         },
-        error: (err) =>
-          alert(err.message || 'เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน'),
+        error: (err) => {
+          const msg = err.message || 'เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน';
+          this.toastr.error(msg);
+        },
       });
   }
+
   onCancelPassword(): void {
     this.editingPasswordUser = null;
   }
@@ -149,22 +162,25 @@ export class ListUserComponent implements OnInit {
     };
     this.registerError = null;
   }
+
   onSaveNewUser(): void {
     if (this.newUserData.password !== this.newUserData.confirmPassword) {
-      this.registerError = 'รหัสผ่านและยืนยันไม่ตรงกัน';
+      this.toastr.error('รหัสผ่านและยืนยันไม่ตรงกัน');
       return;
     }
     this.apiService.register(this.newUserData).subscribe({
       next: () => {
+        this.toastr.success(`เพิ่มผู้ใช้ ${this.newUserData.username} สำเร็จ`);
         this.addingUser = false;
         this.loadActiveUsers();
       },
       error: (err) => {
-        this.registerError =
-          err.error?.message || 'เกิดข้อผิดพลาดในการเพิ่มผู้ใช้';
+        const msg = err.error?.message || 'เกิดข้อผิดพลาดในการเพิ่มผู้ใช้';
+        this.toastr.error(msg);
       },
     });
   }
+
   onCancelNewUser(): void {
     this.addingUser = false;
   }
@@ -174,20 +190,64 @@ export class ListUserComponent implements OnInit {
     this.linkingUser = u;
     this.selectedEmployeeId = '';
   }
+
   onSaveLink(): void {
     if (!this.linkingUser || !this.selectedEmployeeId) return;
     this.apiService
-      .updateUser(this.linkingUser._id, { employeeId: this.selectedEmployeeId })
+      .updateUser(this.linkingUser._id, {
+        employeeId: this.selectedEmployeeId,
+      })
       .subscribe({
         next: () => {
+          this.toastr.success(`เชื่อมพนักงานกับ ${this.linkingUser?.username} สำเร็จ`);
           this.linkingUser = null;
           this.loadActiveUsers();
         },
-        error: (err) =>
-          alert(err.message || 'เกิดข้อผิดพลาดในการเชื่อมพนักงาน'),
+        error: (err) => {
+          const msg = err.message || 'เกิดข้อผิดพลาดในการเชื่อมพนักงาน';
+          this.toastr.error(msg);
+        },
       });
   }
+
   onCancelLink(): void {
     this.linkingUser = null;
   }
+
+
+
+  // Pagination & Filter
+  page = 1;
+  itemsPerPage = 5;
+  itemsPerPageOptions = [5, 10, 20];
+  searchUsername = '';
+  filterStatus = '';
+  sortByRoleOrder = ['it', 'hr', 'board', 'head'];
+
+  // Getter สำหรับแสดงผล
+  get filteredUsers(): ViewUser[] {
+    let result = [...this.users];
+
+    // กรองตาม status
+    if (this.filterStatus) {
+      result = result.filter(u => u.status === this.filterStatus);
+    }
+
+    // ค้นหาตาม username
+    if (this.searchUsername) {
+      result = result.filter(u =>
+        u.username.toLowerCase().includes(this.searchUsername.toLowerCase())
+      );
+    }
+
+    // เรียงตามลำดับ role
+    result.sort((a, b) => {
+      const roleA = this.sortByRoleOrder.indexOf(a.role);
+      const roleB = this.sortByRoleOrder.indexOf(b.role);
+      return roleA - roleB;
+    });
+
+    return result;
+  }
+
 }

@@ -6,7 +6,7 @@
 
 .password-wrapper {
   position: relative;
-  display: flex;
+  // display: flex;
   align-items: center;
 
   input {
@@ -269,6 +269,28 @@ margin: 0 auto;
   
 }
 
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  input,
+  select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    min-width: 200px;
+  }
+
+  select {
+    background-color: #fff;
+  }
+}
+
+
+
 
 /* ========== Responsive Table (768px↓) ========== */
 @media (max-width: 768px) {
@@ -324,4 +346,13 @@ margin: 0 auto;
     gap: 10px;
     margin-top: 10px;
   }
+
+    .filters {
+      flex-direction: column;
+  
+      input,
+      select {
+        width: 100%;
+      }
+    }
 }

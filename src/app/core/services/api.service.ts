@@ -19,7 +19,7 @@ export interface ApiUser {
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'https://sssystemapi.duckdns.org/';
+  private baseUrl = 'https://sssystemapi.duckdns.org';
   private userUrl         = `${this.baseUrl}/users`;
   private employeeUrl     = `${this.baseUrl}/employees`;
   private deptUrl         = `${this.baseUrl}/departments`;
